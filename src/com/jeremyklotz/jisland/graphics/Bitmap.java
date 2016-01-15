@@ -17,7 +17,7 @@ public class Bitmap {
         this.scale = scale;
 
         pixels = new int[width * height];
-        
+
         Arrays.fill(pixels, 0);
 
         blending = BlendingConstants.NO_BLENDING;

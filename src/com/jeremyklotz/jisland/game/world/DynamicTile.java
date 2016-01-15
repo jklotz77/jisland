@@ -2,7 +2,6 @@ package com.jeremyklotz.jisland.game.world;
 
 import com.jeremyklotz.jisland.game.Animator;
 import com.jeremyklotz.jisland.graphics.Bitmap;
-import com.jeremyklotz.jisland.graphics.SpriteSheet;
 
 /**
  * Created by Jeremy Klotz on 1/6/16

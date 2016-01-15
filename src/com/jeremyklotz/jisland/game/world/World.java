@@ -4,15 +4,12 @@ import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.LightSource;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
 import com.jeremyklotz.jisland.utils.ColorUtils;
-import com.jeremyklotz.jisland.utils.MathUtils;
-import sun.plugin2.util.ColorUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -123,7 +120,7 @@ public class World {
             }
         }
 
-        fireLight = new LightSource(0, 0,FIRE_LIGHT_COLOR, FIRE_LIGHT_DISTANCE);
+        fireLight = new LightSource(0, 0, FIRE_LIGHT_COLOR, FIRE_LIGHT_DISTANCE);
     }
 
     private void addTrees() {
