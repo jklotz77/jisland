@@ -49,6 +49,18 @@ public class World {
         fallenToolCoordinates = new ArrayList<>();
     }
 
+    public World(Tile[][] tiles, Tree[] trees, int[][] litTiles) {
+        this.tiles = tiles;
+        this.trees = trees;
+        this.litTiles = litTiles;
+
+        fireLight = new LightSource(0, 0, FIRE_LIGHT_COLOR, FIRE_LIGHT_DISTANCE);
+        fallenTools = new ArrayList<>();
+        fallenToolCoordinates = new ArrayList<>();
+
+        setViewpoint(0, 0);
+    }
+
     public World(String imgPath) {
         BufferedImage image = null;
 
@@ -77,7 +89,7 @@ public class World {
 
         initLitTiles(numLitTiles);
 
-        addTrees();
+        generateTrees(NUM_TREES);
 
         setViewpoint(0, 0);
 
@@ -133,14 +145,12 @@ public class World {
         fireLight = new LightSource(0, 0, FIRE_LIGHT_COLOR, FIRE_LIGHT_DISTANCE);
     }
 
-    private void addTrees() {
+    private void generateTrees(int numTrees) {
         Random random = new Random();
 
-        int[] treePositions = new int[NUM_TREES * 2];
+        trees = new Tree[numTrees];
 
-        trees = new Tree[NUM_TREES];
-
-        for (int i = 0; i < NUM_TREES; i++) {
+        for (int i = 0; i < numTrees; i++) {
             int x;
             int y;
             boolean regenerate;
@@ -179,9 +189,6 @@ public class World {
                 }
 
             } while (regenerate);
-
-            treePositions[i * 2] = x;
-            treePositions[i * 2 + 1] = y;
 
             trees[i] = new Tree(x, y);
         }
