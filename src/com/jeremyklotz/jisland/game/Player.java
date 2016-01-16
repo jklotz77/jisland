@@ -190,20 +190,70 @@ public class Player {
         y += dy;
     }
 
+    private boolean isInWater() {
+        int tileX = (int) (x / Tile.TILE_SIZE);
+        int tileY = (int) (y / Tile.TILE_SIZE);
+
+        Rectangle playerBounds = bounds();
+
+        for (int dx = -1; dx <= 2; dx++) {
+            for (int dy = -1; dy <= 2; dy++) {
+                if (tileX + dx >= 0 && tileX + dx < world.getTileWidth() && tileY + dy >= 0 &&
+                        tileY + dy < world.getTileHeight()) {
+
+                    Tile tile = world.getTile(tileX + dx, tileY + dy);
+
+                    if (tile.getType() == Tile.TYPE_WATER) {
+                        Rectangle tileBounds = new Rectangle((tileX + dx) * Tile.TILE_SIZE, (tileY + dy) * Tile.TILE_SIZE,
+                                Tile.TILE_SIZE, Tile.TILE_SIZE);
+
+                        Rectangle intersection = playerBounds.intersection(tileBounds);
+
+                        if (intersection.getWidth() * intersection.getHeight() > PLAYER_SIZE * PLAYER_SIZE / 8)
+                            return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     public void render(Bitmap bitmap, int x, int y) {
-        switch (direction) {
-            case UP:
-                bitmap.drawSprite(upAninimator.getCurrentFrame(), x, y, PLAYER_SIZE);
-                break;
-            case RIGHT:
-                bitmap.drawSprite(sideAnimator.getCurrentFrame(), x, y, PLAYER_SIZE);
-                break;
-            case DOWN:
-                bitmap.drawSprite(downAnimator.getCurrentFrame(), x, y, PLAYER_SIZE);
-                break;
-            case LEFT:
-                bitmap.drawSprite(sideAnimator.getCurrentFrame(), x, y, PLAYER_SIZE, true);
-                break;
+        if (isInWater()) {
+            switch (direction) {
+                case UP:
+                    bitmap.drawSubimage(upAninimator.getCurrentFrame(), x, y, PLAYER_SIZE, 0, 0, PLAYER_SIZE,
+                            PLAYER_SIZE / 2);
+                    break;
+                case RIGHT:
+                    bitmap.drawSubimage(sideAnimator.getCurrentFrame(), x, y, PLAYER_SIZE, 0, 0, PLAYER_SIZE,
+                            PLAYER_SIZE / 3 * 2);
+                    break;
+                case DOWN:
+                    bitmap.drawSubimage(downAnimator.getCurrentFrame(), x, y, PLAYER_SIZE, 0, 0, PLAYER_SIZE,
+                            PLAYER_SIZE / 5 * 3);
+                    break;
+                case LEFT:
+                    bitmap.drawSubimage(sideAnimator.getCurrentFrame(), x, y, PLAYER_SIZE, 0, 0, PLAYER_SIZE,
+                            PLAYER_SIZE / 3 * 2, true);
+                    break;
+            }
+        } else {
+            switch (direction) {
+                case UP:
+                    bitmap.drawSprite(upAninimator.getCurrentFrame(), x, y, PLAYER_SIZE);
+                    break;
+                case RIGHT:
+                    bitmap.drawSprite(sideAnimator.getCurrentFrame(), x, y, PLAYER_SIZE);
+                    break;
+                case DOWN:
+                    bitmap.drawSprite(downAnimator.getCurrentFrame(), x, y, PLAYER_SIZE);
+                    break;
+                case LEFT:
+                    bitmap.drawSprite(sideAnimator.getCurrentFrame(), x, y, PLAYER_SIZE, true);
+                    break;
+            }
         }
 
         if (currentTool != -1) {
@@ -241,9 +291,5 @@ public class Player {
 
     public int getY() {
         return (int) y;
-    }
-
-    public int getDirection() {
-        return direction;
     }
 }

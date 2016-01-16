@@ -109,6 +109,24 @@ public class Bitmap {
         }
     }
 
+    public void drawSubimage(int[] sprite, int x, int y, int spriteWidth, int startX, int startY, int width, int height) {
+        drawSubimage(sprite, x, y, spriteWidth, startX, startY, width, height, false);
+    }
+
+    public void drawSubimage(int[] sprite, int x, int y, int spriteWidth, int startX, int startY, int width, int height, boolean mirrorX) {
+        for (int dx = 0; dx < width; dx++) {
+            for (int dy = 0; dy < height; dy++) {
+                int spriteX = mirrorX ? width - startX - dx - 1 : startX + dx;
+                int spriteY = startY + dy;
+
+                int pixel = sprite[spriteX + spriteY * spriteWidth];
+
+                if (pixel != SpriteSheet.TRANSPARENCY_LIGHT && pixel != SpriteSheet.TRANSPARENCY_DARK)
+                    drawPixel(x + dx, y + dy, pixel);
+            }
+        }
+    }
+
     public void setBlending(int blending) {
         this.blending = blending;
     }

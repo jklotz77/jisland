@@ -291,6 +291,10 @@ public class World {
         return tiles[0].length;
     }
 
+    public Tile getTile(int x, int y) {
+        return tiles[x][y];
+    }
+
     public ArrayList<Tool> getFallenTools() {
         return fallenTools;
     }
