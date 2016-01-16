@@ -21,9 +21,9 @@ public class WorldGenerator {
         }
 
         generateLakes(tiles, numLakes);
+        generateSand(tiles);
         trees = generateTrees(tiles, numTrees);
         litTiles = generateLitTilesArray(tiles);
-        // TODO Generate beach
         // TODO Generate stone
 
         return new World(tiles, trees, litTiles);
@@ -35,7 +35,7 @@ public class WorldGenerator {
         for (int i = 0; i < numLakes; i++) {
             int lakeSize = random.nextInt(tiles.length * tiles[0].length / (numLakes * 2));
 
-            generateLake(tiles, random.nextInt(tiles.length), random.nextInt(tiles[0].length), lakeSize, random);
+            generateLake(tiles, random.nextInt(tiles.length) + 1, random.nextInt(tiles[0].length) + 1, lakeSize, random);
         }
     }
 
@@ -64,6 +64,31 @@ public class WorldGenerator {
         }
 
         generateLake(tiles, newX, newY, remainingTiles - 1, random);
+    }
+
+    private static void generateSand(Tile[][] tiles) {
+        for (int x = 0; x < tiles.length; x++) {
+            for (int y = 0; y < tiles[0].length; y++) {
+
+                if (tiles[x][y].getType() == Tile.TYPE_WATER) {
+                    for (int dx = -1; dx <= 1; dx++) {
+                        for (int dy = -1; dy <= 1; dy++) {
+
+                            if (x + dx >= 0 && y + dy >= 0 &&
+                                    x + dx < tiles.length && y + dy < tiles[0].length) {
+
+                                if (tiles[x + dx][y + dy].getType() != Tile.TYPE_WATER &&
+                                        tiles[x + dx][y + dy].getType() != Tile.TYPE_SAND) {
+
+                                    tiles[x + dx][y + dy] = new StaticTile(Tile.TYPE_SAND);
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
     }
 
     private static Tree[] generateTrees(Tile[][] tiles, int numTrees) {
