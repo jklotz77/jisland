@@ -2,7 +2,7 @@ package com.jeremyklotz.jisland;
 
 import com.jeremyklotz.jisland.core.Engine;
 import com.jeremyklotz.jisland.core.Input;
-import com.jeremyklotz.jisland.game.GameTool;
+import com.jeremyklotz.jisland.game.Tool;
 import com.jeremyklotz.jisland.game.world.Tile;
 import com.jeremyklotz.jisland.game.world.Tree;
 import com.jeremyklotz.jisland.graphics.Bitmap;
@@ -74,7 +74,7 @@ public class JIsland implements Runnable {
 
     private void initStaticArt(SpriteSheet spriteSheet) {
         Tile.initTileArt(spriteSheet);
-        GameTool.initArt(spriteSheet);
+        Tool.initArt(spriteSheet);
         Tree.initArt(spriteSheet);
     }
 

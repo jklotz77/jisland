@@ -10,7 +10,7 @@ import java.awt.*;
 /**
  * Created by Jeremy Klotz on 1/14/16
  */
-public class GameTool {
+public class Tool {
     public static final int TOOL_WIDTH = SpriteSheet.SPRITE_SIZE;
     public static final int TOOL_HEIGHT = SpriteSheet.SPRITE_SIZE * 2;
     public static final int TYPE_AXE = 0;
@@ -20,10 +20,18 @@ public class GameTool {
 
     private int type;
     private Player player;
+    private int direction;
 
-    public GameTool(int type, Player player) {
+    public Tool(int type, Player player) {
         this.type = type;
         this.player = player;
+        direction = Player.RIGHT;
+    }
+
+    public Tool(int type) {
+        this.type = type;
+        this.player = null;
+        direction = Player.RIGHT;
     }
 
     public static void initArt(SpriteSheet spriteSheet) {
@@ -50,12 +58,20 @@ public class GameTool {
         }
     }
 
-    public void render(Bitmap bitmap, int x, int y, boolean mirrorX) {
+    public void update(int direction) {
+        this.direction = direction;
+    }
+
+    public void render(Bitmap bitmap, int x, int y) {
         switch (type) {
             case TYPE_AXE:
-                bitmap.drawSprite(toolPixels[TYPE_AXE], x, y, mirrorX);
+                bitmap.drawSprite(toolPixels[TYPE_AXE], x, y, direction == Player.LEFT);
                 break;
         }
+    }
+
+    public void pickUp(Player player) {
+        this.player = player;
     }
 
     public int getType() {

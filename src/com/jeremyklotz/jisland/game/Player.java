@@ -9,6 +9,7 @@ import com.jeremyklotz.jisland.graphics.SpriteSheet;
 import com.jeremyklotz.jisland.utils.ColorUtils;
 import com.jeremyklotz.jisland.utils.MathUtils;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -36,7 +37,7 @@ public class Player {
 
     private World world;
 
-    private ArrayList<GameTool> tools;
+    private ArrayList<Tool> tools;
     private int currentTool;
     private int health;
 
@@ -52,9 +53,7 @@ public class Player {
         this.world = world;
 
         tools = new ArrayList<>();
-
-        tools.add(new GameTool(GameTool.TYPE_AXE, this));
-        currentTool = 0;
+        currentTool = -1;
         toolDirection = RIGHT;
 
         health = INITIAL_HEALTH;
@@ -107,6 +106,12 @@ public class Player {
             direction = LEFT;
             toolDirection = LEFT;
         }
+        if (currentTool == -1 && input.isSpacePressed()) {
+            pickUpTool();
+        }
+        if (currentTool != -1 && input.isEscapePressed()) {
+            dropCurrentTool();
+        }
 
         x = MathUtils.clamp(x, 0, world.getTileWidth() * Tile.TILE_SIZE - PLAYER_SIZE);
         y = MathUtils.clamp(y, 0, world.getTileHeight() * Tile.TILE_SIZE - PLAYER_SIZE);
@@ -128,8 +133,52 @@ public class Player {
         updateTool(input);
     }
 
+    private void pickUpTool() {
+        ArrayList<Tool> fallenTools = world.getFallenTools();
+        ArrayList<Integer> fallenToolCoordinates = world.getFallenToolCoordinates();
+
+        Rectangle playerBounds = bounds();
+
+        for (int i = 0; i < fallenTools.size(); i++) {
+            int x = fallenToolCoordinates.get(i * 2);
+            int y = fallenToolCoordinates.get(i * 2 + 1);
+
+            Rectangle toolBounds = new Rectangle(x, y, Tool.TOOL_WIDTH, Tool.TOOL_HEIGHT);
+
+            if (toolBounds.intersects(playerBounds)) {
+                fallenTools.get(i).pickUp(this);
+                tools.add(fallenTools.get(i));
+                currentTool = tools.size() - 1;
+                fallenTools.remove(i);
+                fallenToolCoordinates.remove(i * 2 + 1);
+                fallenToolCoordinates.remove(i * 2);
+                return;
+            }
+        }
+    }
+
+    private void dropCurrentTool() {
+        int toolX;
+        int toolY = (int) y;
+
+        if (toolDirection == LEFT) {
+            toolX = (int) (x - Tool.TOOL_WIDTH);
+        } else {
+            toolX = (int) (x + PLAYER_SIZE);
+        }
+
+        world.getFallenToolCoordinates().add(toolX);
+        world.getFallenToolCoordinates().add(toolY);
+        world.getFallenTools().add(tools.get(currentTool));
+        tools.remove(currentTool);
+        currentTool = -1;
+    }
+
     private void updateTool(Input input) {
-        if (input.isSpacePressed()) {
+        if (currentTool != -1)
+            tools.get(currentTool).update(toolDirection);
+
+        if (currentTool != -1 && input.isSpacePressed()) {
             tools.get(currentTool).useTool(world, toolDirection);
         }
     }
@@ -157,15 +206,17 @@ public class Player {
                 break;
         }
 
-        GameTool tool = tools.get(currentTool);
-        switch (tool.getType()) {
-            case GameTool.TYPE_AXE:
-                if (toolDirection == LEFT) {
-                    tool.render(bitmap, x - PLAYER_SIZE / 2, y, true);
-                } else {
-                    tool.render(bitmap, x + PLAYER_SIZE, y, false);
-                }
-                break;
+        if (currentTool != -1) {
+            Tool tool = tools.get(currentTool);
+            switch (tool.getType()) {
+                case Tool.TYPE_AXE:
+                    if (toolDirection == LEFT) {
+                        tool.render(bitmap, x - Tool.TOOL_WIDTH, y);
+                    } else {
+                        tool.render(bitmap, x + PLAYER_SIZE, y);
+                    }
+                    break;
+            }
         }
 
         if (JIsland.DEBUG) bitmap.drawRect(x, y, PLAYER_SIZE, PLAYER_SIZE, ColorUtils.createColor(255, 0, 0));
@@ -180,11 +231,19 @@ public class Player {
         }
     }
 
+    public Rectangle bounds() {
+        return new Rectangle((int) x, (int) y, PLAYER_SIZE, PLAYER_SIZE);
+    }
+
     public int getX() {
         return (int) x;
     }
 
     public int getY() {
         return (int) y;
+    }
+
+    public int getDirection() {
+        return direction;
     }
 }

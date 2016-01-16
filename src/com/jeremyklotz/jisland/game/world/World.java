@@ -1,5 +1,6 @@
 package com.jeremyklotz.jisland.game.world;
 
+import com.jeremyklotz.jisland.game.Tool;
 import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.LightSource;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
@@ -10,6 +11,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -26,6 +28,8 @@ public class World {
     private int viewpointY;
     private LightSource fireLight;
     private Tree[] trees;
+    private ArrayList<Tool> fallenTools;
+    private ArrayList<Integer> fallenToolCoordinates;
 
     public World(int tileWidth, int tileHeight) {
         tiles = new Tile[tileWidth][tileHeight];
@@ -39,8 +43,10 @@ public class World {
         setViewpoint(0, 0);
 
         fireLight = new LightSource(0, 0, FIRE_LIGHT_COLOR, FIRE_LIGHT_DISTANCE);
-
         litTiles = new int[0][0];
+        trees = new Tree[0];
+        fallenTools = new ArrayList<>();
+        fallenToolCoordinates = new ArrayList<>();
     }
 
     public World(String imgPath) {
@@ -74,6 +80,10 @@ public class World {
         addTrees();
 
         setViewpoint(0, 0);
+
+        fallenTools = new ArrayList<>();
+        fallenToolCoordinates = new ArrayList<>();
+        initFallenTools();
     }
 
     private int parseTiles(int[] worldPixels, int width, int height) {
@@ -177,6 +187,16 @@ public class World {
         }
     }
 
+    private void initFallenTools() {
+        Random random = new Random();
+        int x = random.nextInt(getTileWidth());
+        int y = random.nextInt(getTileHeight());
+
+        fallenTools.add(new Tool(Tool.TYPE_AXE));
+        fallenToolCoordinates.add(x);
+        fallenToolCoordinates.add(y);
+    }
+
     public void update() {
         for (int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles[0].length; y++) {
@@ -205,6 +225,20 @@ public class World {
 
             y = startY;
             x += SpriteSheet.SPRITE_SIZE;
+        }
+
+        renderFallenTools(bitmap);
+    }
+
+    private void renderFallenTools(Bitmap bitmap) {
+        for (int i = 0; i < fallenTools.size(); i++) {
+            int xi = i * 2;
+            int yi = i * 2 + 1;
+
+            int x = fallenToolCoordinates.get(xi);
+            int y = fallenToolCoordinates.get(yi);
+
+            fallenTools.get(i).render(bitmap, x - viewpointX, y - viewpointY);
         }
     }
 
@@ -253,5 +287,13 @@ public class World {
 
     public int getTileHeight() {
         return tiles[0].length;
+    }
+
+    public ArrayList<Tool> getFallenTools() {
+        return fallenTools;
+    }
+
+    public ArrayList<Integer> getFallenToolCoordinates() {
+        return fallenToolCoordinates;
     }
 }

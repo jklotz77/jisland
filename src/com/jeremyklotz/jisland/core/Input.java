@@ -15,6 +15,7 @@ public class Input implements KeyListener {
     private boolean dPressed;
     private boolean anyKeyPressed;
     private boolean enterPressed;
+    private boolean escapePressed;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -43,6 +44,8 @@ public class Input implements KeyListener {
             spacePressed = true;
         if (e.getKeyCode() == KeyEvent.VK_ENTER)
             enterPressed = true;
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+            escapePressed = true;
 
         anyKeyPressed = true;
     }
@@ -69,6 +72,8 @@ public class Input implements KeyListener {
             spacePressed = false;
         if (e.getKeyCode() == KeyEvent.VK_ENTER)
             enterPressed = false;
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+            escapePressed = false;
 
         anyKeyPressed = false;
     }
@@ -117,4 +122,7 @@ public class Input implements KeyListener {
         return enterPressed;
     }
 
+    public boolean isEscapePressed() {
+        return escapePressed;
+    }
 }
