@@ -160,7 +160,7 @@ public class WorldGenerator {
 
     private static int[][] generateLitTilesArray(Tile[][] tiles) {
         ArrayList<Integer> xCoordinates = new ArrayList<>();
-        ArrayList<Integer> yCoorindates = new ArrayList<>();
+        ArrayList<Integer> yCoordinates = new ArrayList<>();
 
         for (int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles[0].length; y++) {
@@ -168,7 +168,7 @@ public class WorldGenerator {
 
                 if (tile.getType() == Tile.TYPE_FIRE) {
                     xCoordinates.add(x);
-                    yCoorindates.add(y);
+                    yCoordinates.add(y);
                 }
             }
         }
@@ -177,7 +177,7 @@ public class WorldGenerator {
 
         for (int i = 0; i < xCoordinates.size(); i++) {
             litTiles[i][0] = xCoordinates.get(i);
-            litTiles[i][1] = yCoorindates.get(i);
+            litTiles[i][1] = yCoordinates.get(i);
         }
 
         return litTiles;
