@@ -8,7 +8,7 @@ import java.util.Random;
  * Created by Jeremy Klotz on 1/15/16
  */
 public class WorldGenerator {
-    public static World generateWorld(int tileWidth, int tileHeight, int numLakes, int numTrees) {
+    public static World generateWorld(int tileWidth, int tileHeight, int numLakes, int numTrees, double fireProbability) {
         Tile[][] tiles = new Tile[tileWidth][tileHeight];
         Tree[] trees;
         int[][] litTiles;
@@ -23,8 +23,8 @@ public class WorldGenerator {
         generateLakes(tiles, numLakes);
         generateSand(tiles);
         trees = generateTrees(tiles, numTrees);
+        generateFire(tiles, fireProbability);
         litTiles = generateLitTilesArray(tiles);
-        // TODO Generate stone
 
         return new World(tiles, trees, litTiles);
     }
@@ -142,6 +142,22 @@ public class WorldGenerator {
         return trees;
     }
 
+    private static void generateFire(Tile[][] tiles, double fireProbability) {
+        Random random = new Random();
+
+        for (int x = 0; x < tiles.length; x++) {
+            for (int y = 0; y < tiles[0].length; y++) {
+                if (tiles[x][y].getType() == Tile.TYPE_GRASS) {
+                    double rand = random.nextDouble();
+
+                    if (rand < fireProbability) {
+                        tiles[x][y] = new DynamicTile(Tile.TYPE_FIRE);
+                    }
+                }
+            }
+        }
+    }
+
     private static int[][] generateLitTilesArray(Tile[][] tiles) {
         ArrayList<Integer> xCoordinates = new ArrayList<>();
         ArrayList<Integer> yCoorindates = new ArrayList<>();
@@ -160,8 +176,8 @@ public class WorldGenerator {
         int[][] litTiles = new int[xCoordinates.size()][2];
 
         for (int i = 0; i < xCoordinates.size(); i++) {
-            litTiles[i * 2][0] = xCoordinates.get(i);
-            litTiles[i * 2 + 1][1] = yCoorindates.get(i);
+            litTiles[i][0] = xCoordinates.get(i);
+            litTiles[i][1] = yCoorindates.get(i);
         }
 
         return litTiles;
