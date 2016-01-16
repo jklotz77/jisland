@@ -106,17 +106,13 @@ public class World {
             for (int y = 0; y < height; y++) {
                 int pixel = worldPixels[x + y * width];
 
-                if (pixel == ColorUtils.createColor(0, 255, 0)) {
-                    tiles[x][y] = new StaticTile(Tile.TYPE_GRASS);
-                } else if (pixel == ColorUtils.createColor(150, 150, 150)) {
-                    tiles[x][y] = new StaticTile(Tile.TYPE_STONE);
-                } else if (pixel == ColorUtils.createColor(0, 0, 255)) {
-                    tiles[x][y] = new DynamicTile(Tile.TYPE_WATER);
-                } else if (pixel == ColorUtils.createColor(255, 100, 0)) {
-                    tiles[x][y] = new DynamicTile(Tile.TYPE_FIRE);
-                    numLitTiles++;
-                } else if (pixel == ColorUtils.createColor(255, 255, 0)) {
-                    tiles[x][y] = new StaticTile(Tile.TYPE_SAND);
+                if (pixel == Tile.TYPE_FIRE || pixel == Tile.TYPE_WATER) {
+                    tiles[x][y] = new DynamicTile(pixel);
+
+                    if (pixel == Tile.TYPE_FIRE)
+                        numLitTiles++;
+                } else {
+                    tiles[x][y] = new StaticTile(pixel);
                 }
             }
         }

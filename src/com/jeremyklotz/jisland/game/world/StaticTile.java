@@ -17,15 +17,12 @@ public class StaticTile extends Tile {
 
     @Override
     public void render(Bitmap bitmap, int x, int y) {
-        switch (type) {
-            case TYPE_GRASS:
-                bitmap.drawSprite(tiles[TYPE_GRASS], x, y);
-                break;
-            case TYPE_STONE:
-                bitmap.drawSprite(tiles[TYPE_STONE], x, y);
-                break;
-            case TYPE_SAND:
-                bitmap.drawSprite(tiles[TYPE_SAND], x, y);
+        if (type == TYPE_GRASS) {
+            bitmap.drawSprite(tiles[0], x, y);
+        } else if (type == TYPE_STONE) {
+            bitmap.drawSprite(tiles[1], x, y);
+        } else if (type == TYPE_SAND) {
+            bitmap.drawSprite(tiles[2], x, y);
         }
     }
 }

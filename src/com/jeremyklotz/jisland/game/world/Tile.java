@@ -2,17 +2,18 @@ package com.jeremyklotz.jisland.game.world;
 
 import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
+import com.jeremyklotz.jisland.utils.ColorUtils;
 
 /**
  * Created by Jeremy Klotz on 1/4/16
  */
 public abstract class Tile {
     public static final int TILE_SIZE = SpriteSheet.SPRITE_SIZE;
-    public static final int TYPE_GRASS = 0;
-    public static final int TYPE_STONE = 1;
-    public static final int TYPE_WATER = 100;
-    public static final int TYPE_FIRE = 101;
-    public static final int TYPE_SAND = 2;
+    public static final int TYPE_GRASS = ColorUtils.createColor(0, 255, 0);
+    public static final int TYPE_STONE = ColorUtils.createColor(150, 150, 150);
+    public static final int TYPE_WATER = ColorUtils.createColor(0, 0, 255);
+    public static final int TYPE_FIRE = ColorUtils.createColor(255, 100, 0);
+    public static final int TYPE_SAND = ColorUtils.createColor(255, 255, 0);
     private static final int TILE_ROW_ON_SPRITESHEET = 0;
 
     protected static int[][] tiles;
@@ -28,14 +29,14 @@ public abstract class Tile {
         tiles = new int[3][TILE_SIZE * TILE_SIZE];
         animatedTiles = new int[6][TILE_SIZE * TILE_SIZE];
 
-        tiles[TYPE_GRASS] = spriteSheet.getSprite(TYPE_GRASS, TILE_ROW_ON_SPRITESHEET);
-        tiles[TYPE_STONE] = spriteSheet.getSprite(TYPE_STONE, TILE_ROW_ON_SPRITESHEET);
-        tiles[TYPE_SAND] = spriteSheet.getSprite(TYPE_SAND, TILE_ROW_ON_SPRITESHEET);
+        tiles[0] = spriteSheet.getSprite(0, TILE_ROW_ON_SPRITESHEET); // Grass
+        tiles[1] = spriteSheet.getSprite(1, TILE_ROW_ON_SPRITESHEET); // Stone
+        tiles[2] = spriteSheet.getSprite(2, TILE_ROW_ON_SPRITESHEET); // Sand
 
-        animatedTiles[0] = spriteSheet.getSprite(0, 1);
+        animatedTiles[0] = spriteSheet.getSprite(0, 1); // Water
         animatedTiles[1] = spriteSheet.getSprite(1, 1);
         animatedTiles[2] = spriteSheet.getSprite(2, 1);
-        animatedTiles[3] = spriteSheet.getSprite(7, 1);
+        animatedTiles[3] = spriteSheet.getSprite(7, 1); // Fire
         animatedTiles[4] = spriteSheet.getSprite(8, 1);
         animatedTiles[5] = spriteSheet.getSprite(9, 1);
     }
