@@ -45,7 +45,7 @@ public class Tool {
             case TYPE_AXE:
                 Rectangle toolBounds = new Rectangle(toolDirection == Player.LEFT ? player.getX() - Player.PLAYER_SIZE / 2
                         : player.getX() + Player.PLAYER_SIZE,
-                        player.getY(), TOOL_WIDTH, TOOL_HEIGHT);
+                        player.getY(), TOOL_WIDTH, TOOL_HEIGHT / 2);
 
                 for (Tree tree : world.getTrees()) {
                     if (tree.bounds().intersects(toolBounds)) {
