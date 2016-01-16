@@ -20,7 +20,6 @@ import java.util.Random;
 public class World {
     private static final int FIRE_LIGHT_COLOR = ColorUtils.createColor(150, 0, 0);
     private static final int FIRE_LIGHT_DISTANCE = 20;
-    private static final int NUM_TREES = 40;
 
     private Tile[][] tiles;
     private int[][] litTiles;
@@ -89,7 +88,7 @@ public class World {
 
         initLitTiles(numLitTiles);
 
-        generateTrees(NUM_TREES);
+        generateTrees(0);
 
         setViewpoint(0, 0);
 
@@ -145,7 +144,7 @@ public class World {
         fireLight = new LightSource(0, 0, FIRE_LIGHT_COLOR, FIRE_LIGHT_DISTANCE);
     }
 
-    private void generateTrees(int numTrees) {
+    public void generateTrees(int numTrees) {
         Random random = new Random();
 
         trees = new Tree[numTrees];

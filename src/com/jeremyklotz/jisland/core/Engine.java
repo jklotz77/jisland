@@ -3,6 +3,7 @@ package com.jeremyklotz.jisland.core;
 import com.jeremyklotz.jisland.game.Player;
 import com.jeremyklotz.jisland.game.world.Tile;
 import com.jeremyklotz.jisland.game.world.World;
+import com.jeremyklotz.jisland.game.world.WorldGenerator;
 import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.BlendingConstants;
 import com.jeremyklotz.jisland.graphics.LightSource;
@@ -17,6 +18,11 @@ public class Engine {
     private static final int WORLD_DARKNESS = 150;
     private static final int PLAYER_LIGHT_COLOR = ColorUtils.createColor(WORLD_DARKNESS, WORLD_DARKNESS / 2, 0);
     private static final int PLAYER_LIGHT_DISTANCE = 75;
+    private static final int WORLD_WIDTH = 128;
+    private static final int WORLD_HEIGHT = 128;
+    private static final int NUM_LAKES = 50;
+    private static final int NUM_TREES = 100;
+    private static final double FIRE_PROBABILITY = 0.03;
 
     private boolean gameOver;
     private Bitmap bitmap;
@@ -30,7 +36,7 @@ public class Engine {
         this.input = input;
         this.gameOver = false;
 
-        this.world = new World("/worlds/testworld128.png");
+        this.world = WorldGenerator.generateWorld(WORLD_WIDTH, WORLD_HEIGHT, NUM_LAKES, NUM_TREES, FIRE_PROBABILITY);
         this.player = new Player(10, 10, spriteSheet, world);
 
         this.playerLight = new LightSource(10, 10, PLAYER_LIGHT_COLOR, PLAYER_LIGHT_DISTANCE);
