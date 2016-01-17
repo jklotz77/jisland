@@ -3,13 +3,12 @@ package com.jeremyklotz.jisland;
 import com.jeremyklotz.jisland.core.Engine;
 import com.jeremyklotz.jisland.core.Input;
 import com.jeremyklotz.jisland.game.Tool;
+import com.jeremyklotz.jisland.game.world.Fire;
 import com.jeremyklotz.jisland.game.world.Tile;
 import com.jeremyklotz.jisland.game.world.Tree;
 import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
 import com.jeremyklotz.jisland.graphics.Window;
-
-import javax.swing.*;
 
 /**
  * Created by Jeremy Klotz on 1/3/16
@@ -90,6 +89,7 @@ public class JIsland implements Runnable {
         Tile.initTileArt(spriteSheet);
         Tool.initArt(spriteSheet);
         Tree.initArt(spriteSheet);
+        Fire.initArt(spriteSheet);
     }
 
     private void update() {

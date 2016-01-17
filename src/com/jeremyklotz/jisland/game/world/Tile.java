@@ -27,7 +27,7 @@ public abstract class Tile {
 
     public static void initTileArt(SpriteSheet spriteSheet) {
         tiles = new int[3][TILE_SIZE * TILE_SIZE];
-        animatedTiles = new int[6][TILE_SIZE * TILE_SIZE];
+        animatedTiles = new int[3][TILE_SIZE * TILE_SIZE];
 
         tiles[0] = spriteSheet.getSprite(0, TILE_ROW_ON_SPRITESHEET); // Grass
         tiles[1] = spriteSheet.getSprite(1, TILE_ROW_ON_SPRITESHEET); // Stone
@@ -36,9 +36,6 @@ public abstract class Tile {
         animatedTiles[0] = spriteSheet.getSprite(0, 1); // Water
         animatedTiles[1] = spriteSheet.getSprite(1, 1);
         animatedTiles[2] = spriteSheet.getSprite(2, 1);
-        animatedTiles[3] = spriteSheet.getSprite(7, 1); // Fire
-        animatedTiles[4] = spriteSheet.getSprite(8, 1);
-        animatedTiles[5] = spriteSheet.getSprite(9, 1);
     }
 
     public abstract void update();

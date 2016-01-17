@@ -19,13 +19,6 @@ public class DynamicTile extends Tile {
             frames[1] = animatedTiles[1];
             frames[2] = animatedTiles[2];
             animator = new Animator(60, frames, true);
-        } else if (type == TYPE_FIRE) {
-            int[][] frames = new int[4][Tile.TILE_SIZE * Tile.TILE_SIZE];
-            frames[0] = animatedTiles[3];
-            frames[1] = animatedTiles[4];
-            frames[2] = animatedTiles[3];
-            frames[3] = animatedTiles[5];
-            animator = new Animator(20, frames, false);
         }
     }
 

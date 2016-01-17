@@ -4,7 +4,6 @@ import com.jeremyklotz.jisland.game.Tool;
 import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.LightSource;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
-import com.jeremyklotz.jisland.utils.ColorUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -18,14 +17,11 @@ import java.util.Random;
  * Created by Jeremy Klotz on 1/4/16
  */
 public class World {
-    private static final int FIRE_LIGHT_COLOR = ColorUtils.createColor(150, 0, 0);
-    private static final int FIRE_LIGHT_DISTANCE = 20;
-
     private Tile[][] tiles;
-    private int[][] litTiles;
     private int viewpointX;
     private int viewpointY;
     private LightSource fireLight;
+    private Fire[] fires;
     private Tree[] trees;
     private ArrayList<Tool> fallenTools;
     private ArrayList<Integer> fallenToolCoordinates;
@@ -41,19 +37,18 @@ public class World {
 
         setViewpoint(0, 0);
 
-        fireLight = new LightSource(0, 0, FIRE_LIGHT_COLOR, FIRE_LIGHT_DISTANCE);
-        litTiles = new int[0][0];
+        fireLight = new LightSource(0, 0, Fire.FIRE_LIGHT_COLOR, Fire.FIRE_LIGHT_DISTANCE);
         trees = new Tree[0];
         fallenTools = new ArrayList<>();
         fallenToolCoordinates = new ArrayList<>();
     }
 
-    public World(Tile[][] tiles, Tree[] trees, int[][] litTiles) {
+    public World(Tile[][] tiles, Tree[] trees, Fire[] fires) {
         this.tiles = tiles;
         this.trees = trees;
-        this.litTiles = litTiles;
+        this.fires = fires;
 
-        fireLight = new LightSource(0, 0, FIRE_LIGHT_COLOR, FIRE_LIGHT_DISTANCE);
+        fireLight = new LightSource(0, 0, Fire.FIRE_LIGHT_COLOR, Fire.FIRE_LIGHT_DISTANCE);
         fallenTools = new ArrayList<>();
         fallenToolCoordinates = new ArrayList<>();
 
@@ -84,9 +79,9 @@ public class World {
         int width = image.getWidth();
         int height = image.getHeight();
 
-        int numLitTiles = parseTiles(worldPixels, width, height);
+        parseTiles(worldPixels, width, height);
 
-        initLitTiles(numLitTiles);
+        fireLight = new LightSource(0, 0, Fire.FIRE_LIGHT_COLOR, Fire.FIRE_LIGHT_DISTANCE);
 
         generateTrees(0);
 
@@ -97,47 +92,35 @@ public class World {
         initFallenTools();
     }
 
-    private int parseTiles(int[] worldPixels, int width, int height) {
+    private void parseTiles(int[] worldPixels, int width, int height) {
         tiles = new Tile[width][height];
 
-        int numLitTiles = 0;
+        ArrayList<Fire> fireArrayList = new ArrayList<>();
+
+        int previewTileType = 0;
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 int pixel = worldPixels[x + y * width];
 
-                if (pixel == Tile.TYPE_FIRE || pixel == Tile.TYPE_WATER) {
+                if (pixel == Tile.TYPE_FIRE) {
+                    tiles[x][y] = new StaticTile(previewTileType);
+                    fireArrayList.add(new Fire(x * Tile.TILE_SIZE, y * Tile.TILE_SIZE));
+                } else if (pixel == Tile.TYPE_WATER) {
                     tiles[x][y] = new DynamicTile(pixel);
-
-                    if (pixel == Tile.TYPE_FIRE)
-                        numLitTiles++;
                 } else {
                     tiles[x][y] = new StaticTile(pixel);
                 }
+
+                previewTileType = pixel;
             }
         }
 
-        return numLitTiles;
-    }
+        fires = new Fire[fireArrayList.size()];
 
-    private void initLitTiles(int numLitTiles) {
-        litTiles = new int[numLitTiles][2];
-
-        int currentLitTile = 0;
-
-        for (int x = 0; x < tiles.length; x++) {
-            for (int y = 0; y < tiles[0].length; y++) {
-                Tile t = tiles[x][y];
-
-                if (t.getType() == Tile.TYPE_FIRE) {
-                    litTiles[currentLitTile][0] = x;
-                    litTiles[currentLitTile][1] = y;
-                    currentLitTile++;
-                }
-            }
+        for (int i = 0; i < fireArrayList.size(); i++) {
+            fires[i] = fireArrayList.get(i);
         }
-
-        fireLight = new LightSource(0, 0, FIRE_LIGHT_COLOR, FIRE_LIGHT_DISTANCE);
     }
 
     public void generateTrees(int numTrees) {
@@ -205,6 +188,8 @@ public class World {
                 tiles[x][y].update();
             }
         }
+
+        Fire.update();
     }
 
     public void render(Bitmap bitmap) {
@@ -256,12 +241,13 @@ public class World {
     }
 
     public void renderLight(Bitmap bitmap) {
-        for (int i = 0; i < litTiles.length; i++) {
-            int x = litTiles[i][0];
-            int y = litTiles[i][1];
+        for (Fire fire : fires) {
+            int x = fire.getX() - viewpointX;
+            int y = fire.getY() - viewpointY;
 
-            fireLight.setX(x * Tile.TILE_SIZE - viewpointX + Tile.TILE_SIZE / 2);
-            fireLight.setY(y * Tile.TILE_SIZE - viewpointY + Tile.TILE_SIZE / 2);
+            fire.render(bitmap, x, y);
+            fireLight.setX(x + Fire.FIRE_WIDTH / 2);
+            fireLight.setY(y + Fire.FIRE_HEIGHT / 2);
             fireLight.render(bitmap);
         }
     }

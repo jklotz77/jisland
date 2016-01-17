@@ -10,7 +10,7 @@ public class WorldGenerator {
     public static World generateWorld(int tileWidth, int tileHeight, int numLakes, int numForests, double fireProbability) {
         Tile[][] tiles = new Tile[tileWidth][tileHeight];
         Tree[] trees;
-        int[][] litTiles;
+        Fire[] fires;
 
         // Fill with grass
         for (int x = 0; x < tileWidth; x++) {
@@ -22,10 +22,9 @@ public class WorldGenerator {
         generateLakes(tiles, numLakes);
         generateSand(tiles);
         trees = generateForests(tiles, numForests);
-        generateFire(tiles, fireProbability);
-        litTiles = generateLitTilesArray(tiles);
+        fires = generateFire(tiles, fireProbability);
 
-        return new World(tiles, trees, litTiles);
+        return new World(tiles, trees, fires);
     }
 
     private static void generateLakes(Tile[][] tiles, int numLakes) {
@@ -193,8 +192,9 @@ public class WorldGenerator {
         return true;
     }
 
-    private static void generateFire(Tile[][] tiles, double fireProbability) {
+    private static Fire[] generateFire(Tile[][] tiles, double fireProbability) {
         Random random = new Random();
+        ArrayList<Fire> fireArrayList = new ArrayList<>();
 
         for (int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles[0].length; y++) {
@@ -202,35 +202,18 @@ public class WorldGenerator {
                     double rand = random.nextDouble();
 
                     if (rand < fireProbability) {
-                        tiles[x][y] = new DynamicTile(Tile.TYPE_FIRE);
+                        fireArrayList.add(new Fire(x * Tile.TILE_SIZE, y * Tile.TILE_SIZE));
                     }
                 }
             }
         }
-    }
 
-    private static int[][] generateLitTilesArray(Tile[][] tiles) {
-        ArrayList<Integer> xCoordinates = new ArrayList<>();
-        ArrayList<Integer> yCoordinates = new ArrayList<>();
+        Fire[] fires = new Fire[fireArrayList.size()];
 
-        for (int x = 0; x < tiles.length; x++) {
-            for (int y = 0; y < tiles[0].length; y++) {
-                Tile tile = tiles[x][y];
-
-                if (tile.getType() == Tile.TYPE_FIRE) {
-                    xCoordinates.add(x);
-                    yCoordinates.add(y);
-                }
-            }
+        for (int i = 0; i < fireArrayList.size(); i++) {
+            fires[i] = fireArrayList.get(i);
         }
 
-        int[][] litTiles = new int[xCoordinates.size()][2];
-
-        for (int i = 0; i < xCoordinates.size(); i++) {
-            litTiles[i][0] = xCoordinates.get(i);
-            litTiles[i][1] = yCoordinates.get(i);
-        }
-
-        return litTiles;
+        return fires;
     }
 }
