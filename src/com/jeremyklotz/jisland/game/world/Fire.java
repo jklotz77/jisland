@@ -11,7 +11,7 @@ import com.jeremyklotz.jisland.utils.ColorUtils;
 public class Fire {
     public static final int FIRE_WIDTH = Tile.TILE_SIZE;
     public static final int FIRE_HEIGHT = Tile.TILE_SIZE;
-    public static final int FIRE_LIGHT_COLOR = ColorUtils.createColor(80, 0, 0);
+    public static final int FIRE_LIGHT_COLOR = ColorUtils.createColor(150, 0, 0);
     public static final int FIRE_LIGHT_DISTANCE = 20;
 
     private static Animator animator;

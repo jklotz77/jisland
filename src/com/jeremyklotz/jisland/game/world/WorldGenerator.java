@@ -1,5 +1,6 @@
 package com.jeremyklotz.jisland.game.world;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -7,6 +8,8 @@ import java.util.Random;
  * Created by Jeremy Klotz on 1/15/16
  */
 public class WorldGenerator {
+    private static double FIRE_IN_TREE_PROBABILITY = 10;
+
     public static World generateWorld(int tileWidth, int tileHeight, int numLakes, int numForests, double fireProbability) {
         Tile[][] tiles = new Tile[tileWidth][tileHeight];
         Tree[] trees;
@@ -22,7 +25,7 @@ public class WorldGenerator {
         generateLakes(tiles, numLakes);
         generateSand(tiles);
         trees = generateForests(tiles, numForests);
-        fires = generateFire(tiles, fireProbability);
+        fires = generateFire(tiles, trees, fireProbability);
 
         return new World(tiles, trees, fires);
     }
@@ -192,7 +195,7 @@ public class WorldGenerator {
         return true;
     }
 
-    private static Fire[] generateFire(Tile[][] tiles, double fireProbability) {
+    private static Fire[] generateFire(Tile[][] tiles, Tree[] trees, double fireProbability) {
         Random random = new Random();
         ArrayList<Fire> fireArrayList = new ArrayList<>();
 
@@ -201,7 +204,18 @@ public class WorldGenerator {
                 if (tiles[x][y].getType() == Tile.TYPE_GRASS) {
                     double rand = random.nextDouble();
 
-                    if (rand < fireProbability) {
+                    double actualProbability = fireProbability;
+
+                    Rectangle fireBounds = new Rectangle(x * Tile.TILE_SIZE, y * Tile.TILE_SIZE, Fire.FIRE_WIDTH, Fire.FIRE_HEIGHT);
+
+                    for (Tree t : trees) {
+                        if (t.bounds().intersects(fireBounds)) {
+                            actualProbability *= FIRE_IN_TREE_PROBABILITY;
+                            break;
+                        }
+                    }
+
+                    if (rand < actualProbability) {
                         fireArrayList.add(new Fire(x * Tile.TILE_SIZE, y * Tile.TILE_SIZE));
                     }
                 }

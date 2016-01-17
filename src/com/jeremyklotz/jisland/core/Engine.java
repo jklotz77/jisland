@@ -21,8 +21,8 @@ public class Engine {
     private static final int WORLD_WIDTH = 64;
     private static final int WORLD_HEIGHT = 64;
     private static final int NUM_LAKES = 10;
-    private static final int NUM_FORESTS = 5;
-    private static final double FIRE_PROBABILITY = 0.03;
+    private static final int NUM_FORESTS = 10;
+    private static final double FIRE_PROBABILITY = 0.004;
 
     private boolean gameOver;
     private Bitmap bitmap;
@@ -65,8 +65,8 @@ public class Engine {
         World
         Player
         Trees
-        Shade
         World Light
+        Shade
         Player Light
          */
 
@@ -76,8 +76,8 @@ public class Engine {
         world.render(bitmap);
         player.render(bitmap, player.getX() - world.getViewpointX(), player.getY() - world.getViewpointY());
         world.renderTrees(bitmap);
-        bitmap.shade(WORLD_DARKNESS);
         world.renderLight(bitmap);
+        bitmap.shade(WORLD_DARKNESS);
         playerLight.render(bitmap);
 
         renderGui();
