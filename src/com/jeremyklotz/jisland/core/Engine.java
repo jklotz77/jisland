@@ -65,8 +65,9 @@ public class Engine {
         World
         Player
         Trees
-        World Light
+        Fire
         Shade
+        Fire light
         Player Light
          */
 
@@ -76,8 +77,9 @@ public class Engine {
         world.render(bitmap);
         player.render(bitmap, player.getX() - world.getViewpointX(), player.getY() - world.getViewpointY());
         world.renderTrees(bitmap);
-        world.renderLight(bitmap);
+        world.renderFire(bitmap);
         bitmap.shade(WORLD_DARKNESS);
+        world.renderLight(bitmap);
         playerLight.render(bitmap);
 
         renderGui();

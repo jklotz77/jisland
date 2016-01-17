@@ -245,10 +245,18 @@ public class World {
             int x = fire.getX() - viewpointX;
             int y = fire.getY() - viewpointY;
 
-            fire.render(bitmap, x, y);
             fireLight.setX(x + Fire.FIRE_WIDTH / 2);
             fireLight.setY(y + Fire.FIRE_HEIGHT / 2);
             fireLight.render(bitmap);
+        }
+    }
+
+    public void renderFire(Bitmap bitmap) {
+        for (Fire fire : fires) {
+            int x = fire.getX() - viewpointX;
+            int y = fire.getY() - viewpointY;
+
+            fire.render(bitmap, x, y);
         }
     }
 
