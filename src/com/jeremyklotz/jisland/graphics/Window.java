@@ -34,7 +34,6 @@ public class Window extends Canvas {
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(size);
-        frame.setVisible(true);
 
         createBufferStrategy(1);
         bufferStrategy = getBufferStrategy();

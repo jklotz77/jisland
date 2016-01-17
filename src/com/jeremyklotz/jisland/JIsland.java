@@ -9,6 +9,8 @@ import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
 import com.jeremyklotz.jisland.graphics.Window;
 
+import javax.swing.*;
+
 /**
  * Created by Jeremy Klotz on 1/3/16
  */
@@ -26,7 +28,6 @@ public class JIsland implements Runnable {
     private Engine engine;
     private Window window;
 
-
     public void start() {
         if (thread == null) {
             thread = new Thread(this);
@@ -36,7 +37,20 @@ public class JIsland implements Runnable {
 
     @Override
     public void run() {
-        init();
+        InitThread t = new InitThread();
+        t.start();
+
+        synchronized (t) {
+            System.out.println("Initializing...");
+            try {
+                t.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Initialization complete.");
+        }
+
+        window.getWindow().setVisible(true);
 
         long lastTime = System.nanoTime();
         double nsPerTick = 1000000000D / FPS;
@@ -85,5 +99,14 @@ public class JIsland implements Runnable {
     private void render() {
         engine.render();
         window.swapBuffers();
+    }
+
+    class InitThread extends Thread {
+        public void run() {
+            synchronized (this) {
+                init();
+                notify();
+            }
+        }
     }
 }
