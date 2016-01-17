@@ -24,7 +24,6 @@ public class World {
     private Fire[] fires;
     private Tree[] trees;
     private ArrayList<Tool> fallenTools;
-    private ArrayList<Integer> fallenToolCoordinates;
 
     public World(int tileWidth, int tileHeight) {
         tiles = new Tile[tileWidth][tileHeight];
@@ -40,7 +39,6 @@ public class World {
         fireLight = new LightSource(0, 0, Fire.FIRE_LIGHT_COLOR, Fire.FIRE_LIGHT_DISTANCE);
         trees = new Tree[0];
         fallenTools = new ArrayList<>();
-        fallenToolCoordinates = new ArrayList<>();
     }
 
     public World(Tile[][] tiles, Tree[] trees, Fire[] fires) {
@@ -50,7 +48,6 @@ public class World {
 
         fireLight = new LightSource(0, 0, Fire.FIRE_LIGHT_COLOR, Fire.FIRE_LIGHT_DISTANCE);
         fallenTools = new ArrayList<>();
-        fallenToolCoordinates = new ArrayList<>();
 
         setViewpoint(0, 0);
     }
@@ -88,7 +85,6 @@ public class World {
         setViewpoint(0, 0);
 
         fallenTools = new ArrayList<>();
-        fallenToolCoordinates = new ArrayList<>();
         initFallenTools();
     }
 
@@ -177,9 +173,7 @@ public class World {
         int x = random.nextInt(getTileWidth());
         int y = random.nextInt(getTileHeight());
 
-        fallenTools.add(new Tool(Tool.TYPE_AXE));
-        fallenToolCoordinates.add(x);
-        fallenToolCoordinates.add(y);
+        fallenTools.add(new Tool(Tool.TYPE_AXE, x, y));
     }
 
     public void update() {
@@ -219,11 +213,8 @@ public class World {
 
     private void renderFallenTools(Bitmap bitmap) {
         for (int i = 0; i < fallenTools.size(); i++) {
-            int xi = i * 2;
-            int yi = i * 2 + 1;
-
-            int x = fallenToolCoordinates.get(xi);
-            int y = fallenToolCoordinates.get(yi);
+            int x = fallenTools.get(i).getFallenX();
+            int y = fallenTools.get(i).getFallenY();
 
             fallenTools.get(i).render(bitmap, x - viewpointX, y - viewpointY);
         }
@@ -289,17 +280,11 @@ public class World {
         return tiles[x][y];
     }
 
-    public void addFallenTool(Tool tool, int x, int y) {
+    public void addFallenTool(Tool tool) {
         fallenTools.add(tool);
-        fallenToolCoordinates.add(x);
-        fallenToolCoordinates.add(y);
     }
 
     public ArrayList<Tool> getFallenTools() {
         return fallenTools;
-    }
-
-    public ArrayList<Integer> getFallenToolCoordinates() {
-        return fallenToolCoordinates;
     }
 }

@@ -41,7 +41,7 @@ public class Engine {
 
         Random random = new Random();
         world = WorldGenerator.generateWorld(WORLD_WIDTH, WORLD_HEIGHT, NUM_LAKES, NUM_FORESTS, FIRE_PROBABILITY);
-        world.addFallenTool(new Tool(Tool.TYPE_AXE), random.nextInt(bitmap.getWidth() / 2), random.nextInt(bitmap.getHeight() / 2));
+        world.addFallenTool(new Tool(Tool.TYPE_AXE, random.nextInt(bitmap.getWidth() / 2), random.nextInt(bitmap.getHeight() / 2)));
 
         this.player = new Player(10, 10, spriteSheet, world);
 

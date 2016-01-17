@@ -135,13 +135,12 @@ public class Player {
 
     private void pickUpTool() {
         ArrayList<Tool> fallenTools = world.getFallenTools();
-        ArrayList<Integer> fallenToolCoordinates = world.getFallenToolCoordinates();
 
         Rectangle playerBounds = bounds();
 
         for (int i = 0; i < fallenTools.size(); i++) {
-            int x = fallenToolCoordinates.get(i * 2);
-            int y = fallenToolCoordinates.get(i * 2 + 1);
+            int x = fallenTools.get(i).getFallenX();
+            int y = fallenTools.get(i).getFallenY();
 
             Rectangle toolBounds = new Rectangle(x, y, Tool.TOOL_WIDTH, Tool.TOOL_HEIGHT);
 
@@ -150,8 +149,6 @@ public class Player {
                 tools.add(fallenTools.get(i));
                 currentTool = tools.size() - 1;
                 fallenTools.remove(i);
-                fallenToolCoordinates.remove(i * 2 + 1);
-                fallenToolCoordinates.remove(i * 2);
                 return;
             }
         }
@@ -167,8 +164,8 @@ public class Player {
             toolX = (int) (x + PLAYER_SIZE);
         }
 
-        world.getFallenToolCoordinates().add(toolX);
-        world.getFallenToolCoordinates().add(toolY);
+        tools.get(currentTool).setFallenX(toolX);
+        tools.get(currentTool).setFallenY(toolY);
         world.getFallenTools().add(tools.get(currentTool));
         tools.remove(currentTool);
         currentTool = -1;

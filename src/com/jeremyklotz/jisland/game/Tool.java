@@ -21,6 +21,8 @@ public class Tool {
     private int type;
     private Player player;
     private int direction;
+    private int fallenX;
+    private int fallenY;
 
     public Tool(int type, Player player) {
         this.type = type;
@@ -28,10 +30,12 @@ public class Tool {
         direction = Player.RIGHT;
     }
 
-    public Tool(int type) {
+    public Tool(int type, int fallenX, int fallenY) {
         this.type = type;
         this.player = null;
         direction = Player.RIGHT;
+        this.fallenX = fallenX;
+        this.fallenY = fallenY;
     }
 
     public static void initArt(SpriteSheet spriteSheet) {
@@ -76,5 +80,21 @@ public class Tool {
 
     public int getType() {
         return type;
+    }
+
+    public void setFallenX(int fallenX) {
+        this.fallenX = fallenX;
+    }
+
+    public void setFallenY(int fallenY) {
+        this.fallenY = fallenY;
+    }
+
+    public int getFallenX() {
+        return fallenX;
+    }
+
+    public int getFallenY() {
+        return fallenY;
     }
 }
