@@ -289,6 +289,12 @@ public class World {
         return tiles[x][y];
     }
 
+    public void addFallenTool(Tool tool, int x, int y) {
+        fallenTools.add(tool);
+        fallenToolCoordinates.add(x);
+        fallenToolCoordinates.add(y);
+    }
+
     public ArrayList<Tool> getFallenTools() {
         return fallenTools;
     }

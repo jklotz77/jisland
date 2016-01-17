@@ -1,6 +1,7 @@
 package com.jeremyklotz.jisland.core;
 
 import com.jeremyklotz.jisland.game.Player;
+import com.jeremyklotz.jisland.game.Tool;
 import com.jeremyklotz.jisland.game.world.Tile;
 import com.jeremyklotz.jisland.game.world.World;
 import com.jeremyklotz.jisland.game.world.WorldGenerator;
@@ -10,6 +11,8 @@ import com.jeremyklotz.jisland.graphics.LightSource;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
 import com.jeremyklotz.jisland.utils.ColorUtils;
 import com.jeremyklotz.jisland.utils.MathUtils;
+
+import java.util.Random;
 
 /**
  * Created by Jeremy Klotz on 1/3/16
@@ -36,7 +39,10 @@ public class Engine {
         this.input = input;
         this.gameOver = false;
 
-        this.world = WorldGenerator.generateWorld(WORLD_WIDTH, WORLD_HEIGHT, NUM_LAKES, NUM_FORESTS, FIRE_PROBABILITY);
+        Random random = new Random();
+        world = WorldGenerator.generateWorld(WORLD_WIDTH, WORLD_HEIGHT, NUM_LAKES, NUM_FORESTS, FIRE_PROBABILITY);
+        world.addFallenTool(new Tool(Tool.TYPE_AXE), random.nextInt(bitmap.getWidth() / 2), random.nextInt(bitmap.getHeight() / 2));
+
         this.player = new Player(10, 10, spriteSheet, world);
 
         this.playerLight = new LightSource(10, 10, PLAYER_LIGHT_COLOR, PLAYER_LIGHT_DISTANCE);
