@@ -30,15 +30,13 @@ public class Player {
     private Animator downAnimator;
     private Animator sideAnimator;
     private Animator upAninimator;
-    private int direction; // 1 = up, 2 = right, 3 = down, 4 = left
-    private int toolDirection;
+    private int direction;
     private boolean moving;
     private int[] heartSprite;
 
     private World world;
 
-    private ArrayList<Tool> tools;
-    private int currentTool;
+    private Inventory inventory;
     private int health;
 
     public Player(int x, int y, SpriteSheet spriteSheet, World world) {
@@ -52,9 +50,7 @@ public class Player {
 
         this.world = world;
 
-        tools = new ArrayList<>();
-        currentTool = -1;
-        toolDirection = RIGHT;
+        inventory = new Inventory();
 
         health = INITIAL_HEALTH;
     }
@@ -99,17 +95,17 @@ public class Player {
         if (input.isRightPressed()) {
             move(SPEED, 0);
             direction = RIGHT;
-            toolDirection = RIGHT;
+            inventory.setToolDirection(RIGHT);
         }
         if (input.isLeftPressed()) {
             move(-SPEED, 0);
             direction = LEFT;
-            toolDirection = LEFT;
+            inventory.setToolDirection(LEFT);
         }
-        if (currentTool == -1 && input.isSpacePressed()) {
+        if (inventory.getCurrentToolIndex() == -1 && input.isSpacePressed()) {
             pickUpTool();
         }
-        if (currentTool != -1 && input.isEscapePressed()) {
+        if (inventory.getCurrentToolIndex() != -1 && input.isEscapePressed()) {
             dropCurrentTool();
         }
 
@@ -130,7 +126,7 @@ public class Player {
             }
         }
 
-        updateTool(input);
+        inventory.update(input, world);
     }
 
     private void pickUpTool() {
@@ -146,8 +142,7 @@ public class Player {
 
             if (toolBounds.intersects(playerBounds)) {
                 fallenTools.get(i).pickUp(this);
-                tools.add(fallenTools.get(i));
-                currentTool = tools.size() - 1;
+                inventory.pickUpTool(fallenTools.get(i));
                 fallenTools.remove(i);
                 return;
             }
@@ -158,26 +153,14 @@ public class Player {
         int toolX;
         int toolY = (int) y;
 
-        if (toolDirection == LEFT) {
+        if (inventory.getToolDirection() == LEFT) {
             toolX = (int) (x - Tool.TOOL_WIDTH);
         } else {
             toolX = (int) (x + PLAYER_SIZE);
         }
 
-        tools.get(currentTool).setFallenX(toolX);
-        tools.get(currentTool).setFallenY(toolY);
-        world.getFallenTools().add(tools.get(currentTool));
-        tools.remove(currentTool);
-        currentTool = -1;
-    }
-
-    private void updateTool(Input input) {
-        if (currentTool != -1)
-            tools.get(currentTool).update(toolDirection);
-
-        if (currentTool != -1 && input.isSpacePressed()) {
-            tools.get(currentTool).useTool(world, toolDirection);
-        }
+        Tool fallenTool = inventory.dropCurrentTool(toolX, toolY);
+        world.addFallenTool(fallenTool);
     }
 
     private void move(double dx, double dy) {
@@ -253,18 +236,7 @@ public class Player {
             }
         }
 
-        if (currentTool != -1) {
-            Tool tool = tools.get(currentTool);
-            switch (tool.getType()) {
-                case Tool.TYPE_AXE:
-                    if (toolDirection == LEFT) {
-                        tool.render(bitmap, x - Tool.TOOL_WIDTH, y);
-                    } else {
-                        tool.render(bitmap, x + PLAYER_SIZE, y);
-                    }
-                    break;
-            }
-        }
+        inventory.render(bitmap, x, y);
 
         if (JIsland.DEBUG) bitmap.drawRect(x, y, PLAYER_SIZE, PLAYER_SIZE, ColorUtils.createColor(255, 0, 0));
     }
