@@ -29,7 +29,10 @@ public class Text {
     public static void render(String text, int x, int y, Bitmap bitmap, int color) {
         text = text.toUpperCase();
 
-        for (int i =  0; i < text.length(); i++) { // TODO Text wrapping
+        int startWrapIndex = 0;
+        int wrapLevel = 0;
+
+        for (int i = 0; i < text.length(); i++) {
             char ch = text.charAt(i);
 
             if (ch == ' ')
@@ -38,7 +41,18 @@ public class Text {
             int charIndexInArray = ((int) ch) - 65;
             int[] charSprite = characters[charIndexInArray];
 
-            bitmap.drawSpriteWithColor(charSprite, x + i * CHARACTER_SIZE, y, CHARACTER_SIZE, color);
+            int xCor = x + (i - startWrapIndex) * CHARACTER_SIZE;
+            int yCor = y + wrapLevel * CHARACTER_SIZE;
+
+            if (xCor > bitmap.getWidth() - CHARACTER_SIZE) {
+                startWrapIndex = i;
+                wrapLevel++;
+
+                xCor = x + (i - startWrapIndex) * CHARACTER_SIZE;
+                yCor = y + wrapLevel * CHARACTER_SIZE;
+            }
+
+            bitmap.drawSpriteWithColor(charSprite, xCor, yCor, CHARACTER_SIZE, color);
         }
     }
 }
