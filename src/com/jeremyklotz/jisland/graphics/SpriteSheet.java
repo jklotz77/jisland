@@ -61,4 +61,8 @@ public class SpriteSheet {
 
         return sprite;
     }
+
+    public int getWidth() {
+        return width;
+    }
 }

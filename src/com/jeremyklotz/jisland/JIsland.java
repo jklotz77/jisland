@@ -8,6 +8,7 @@ import com.jeremyklotz.jisland.game.world.Tile;
 import com.jeremyklotz.jisland.game.world.Tree;
 import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
+import com.jeremyklotz.jisland.graphics.Text;
 import com.jeremyklotz.jisland.graphics.Window;
 
 /**
@@ -90,6 +91,7 @@ public class JIsland implements Runnable {
         Tool.initArt(spriteSheet);
         Tree.initArt(spriteSheet);
         Fire.initArt(spriteSheet);
+        Text.initArt(spriteSheet);
     }
 
     private void update() {

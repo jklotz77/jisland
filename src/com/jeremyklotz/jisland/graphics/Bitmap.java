@@ -96,6 +96,18 @@ public class Bitmap {
         drawSprite(sprite, x, y, width, false);
     }
 
+    public void drawSpriteWithColor(int[] sprite, int x, int y, int width, int color) {
+        for (int spriteX = 0; spriteX < width; spriteX++) {
+            for (int spriteY = 0; spriteY < sprite.length / width; spriteY++) {
+
+                int pixel = sprite[spriteX + spriteY * width];
+
+                if (pixel != SpriteSheet.TRANSPARENCY_LIGHT && pixel != SpriteSheet.TRANSPARENCY_DARK)
+                    drawPixel(x + spriteX, y + spriteY, color);
+            }
+        }
+    }
+
     public void drawSprite(int[] sprite, int x, int y, int width, boolean mirrorX) {
         for (int spriteX = 0; spriteX < width; spriteX++) {
             for (int spriteY = 0; spriteY < sprite.length / width; spriteY++) {
