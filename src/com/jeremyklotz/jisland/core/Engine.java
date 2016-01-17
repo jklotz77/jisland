@@ -18,10 +18,10 @@ public class Engine {
     private static final int WORLD_DARKNESS = 150;
     private static final int PLAYER_LIGHT_COLOR = ColorUtils.createColor(WORLD_DARKNESS, WORLD_DARKNESS / 2, 0);
     private static final int PLAYER_LIGHT_DISTANCE = 75;
-    private static final int WORLD_WIDTH = 128;
-    private static final int WORLD_HEIGHT = 128;
-    private static final int NUM_LAKES = 50;
-    private static final int NUM_TREES = 100;
+    private static final int WORLD_WIDTH = 64;
+    private static final int WORLD_HEIGHT = 64;
+    private static final int NUM_LAKES = 10;
+    private static final int NUM_FORESTS = 5;
     private static final double FIRE_PROBABILITY = 0.03;
 
     private boolean gameOver;
@@ -36,7 +36,7 @@ public class Engine {
         this.input = input;
         this.gameOver = false;
 
-        this.world = WorldGenerator.generateWorld(WORLD_WIDTH, WORLD_HEIGHT, NUM_LAKES, NUM_TREES, FIRE_PROBABILITY);
+        this.world = WorldGenerator.generateWorld(WORLD_WIDTH, WORLD_HEIGHT, NUM_LAKES, NUM_FORESTS, FIRE_PROBABILITY);
         this.player = new Player(10, 10, spriteSheet, world);
 
         this.playerLight = new LightSource(10, 10, PLAYER_LIGHT_COLOR, PLAYER_LIGHT_DISTANCE);

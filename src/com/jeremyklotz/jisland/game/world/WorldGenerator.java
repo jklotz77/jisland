@@ -1,6 +1,5 @@
 package com.jeremyklotz.jisland.game.world;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,7 +7,7 @@ import java.util.Random;
  * Created by Jeremy Klotz on 1/15/16
  */
 public class WorldGenerator {
-    public static World generateWorld(int tileWidth, int tileHeight, int numLakes, int numTrees, double fireProbability) {
+    public static World generateWorld(int tileWidth, int tileHeight, int numLakes, int numForests, double fireProbability) {
         Tile[][] tiles = new Tile[tileWidth][tileHeight];
         Tree[] trees;
         int[][] litTiles;
@@ -22,7 +21,7 @@ public class WorldGenerator {
 
         generateLakes(tiles, numLakes);
         generateSand(tiles);
-        trees = generateTrees(tiles, numTrees);
+        trees = generateForests(tiles, numForests);
         generateFire(tiles, fireProbability);
         litTiles = generateLitTilesArray(tiles);
 
@@ -35,7 +34,7 @@ public class WorldGenerator {
         for (int i = 0; i < numLakes; i++) {
             int lakeSize = random.nextInt(tiles.length * tiles[0].length / (numLakes * 2));
 
-            generateLake(tiles, random.nextInt(tiles.length) + 1, random.nextInt(tiles[0].length) + 1, lakeSize, random);
+            generateLake(tiles, random.nextInt(tiles.length), random.nextInt(tiles[0].length), lakeSize, random);
         }
     }
 
@@ -91,55 +90,107 @@ public class WorldGenerator {
         }
     }
 
-    private static Tree[] generateTrees(Tile[][] tiles, int numTrees) {
+    private static Tree[] generateForests(Tile[][] tiles, int numForests) {
+        ArrayList<Tree> treesList = new ArrayList<Tree>();
         Random random = new Random();
 
-        Tree[] trees = new Tree[numTrees];
+        for (int i = 0; i < numForests; i++) {
+            int forestSize = random.nextInt(tiles.length * tiles[0].length / (numForests * 2));
 
-        for (int i = 0; i < numTrees; i++) {
-            int x;
-            int y;
-            boolean regenerate;
+            generateForests(tiles, treesList, random.nextInt(tiles.length), random.nextInt(tiles[0].length), forestSize, random);
+        }
 
-            // No duplicated Tree coordinates
-            do {
-                regenerate = false;
+        Tree[] trees = new Tree[treesList.size()];
 
-                x = random.nextInt(tiles.length - 1) * Tile.TILE_SIZE;
-                y = random.nextInt(tiles[0].length - 1) * Tile.TILE_SIZE;
-
-                Tree tree = new Tree(x, y);
-
-                // Intersection with other trees
-                for (int t = 0; t < i; t++) {
-                    if (trees[t].bounds().intersects(tree.bounds())) {
-                        regenerate = true;
-                        break;
-                    }
-                }
-
-                // Trees only grown on grass
-                for (int w = 0; w < tiles.length; w++) {
-                    for (int h = 0; h < tiles.length; h++) {
-                        Tile t = tiles[w][h];
-                        if (t.getType() != Tile.TYPE_GRASS) {
-                            Rectangle bounds = new Rectangle(w * Tile.TILE_SIZE, h * Tile.TILE_SIZE,
-                                    Tile.TILE_SIZE, Tile.TILE_SIZE);
-
-                            if (bounds.intersects(tree.bounds())) {
-                                regenerate = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-            } while (regenerate);
-
-            trees[i] = new Tree(x, y);
+        for (int i = 0; i < treesList.size(); i++) {
+            trees[i] = treesList.get(i);
         }
 
         return trees;
+    }
+
+    private static void generateForests(Tile[][] tiles, ArrayList<Tree> trees, int x, int y, int remainingTiles, Random random) {
+        if (remainingTiles == 0) return;
+
+        int newX;
+        int newY;
+
+        do {
+            newX = x + (random.nextInt(3) - 1);
+        } while (newX < 0 || newX >= tiles.length);
+
+        do {
+            newY = y + (random.nextInt(3) - 1);
+        } while (newY < 0 || newY >= tiles[0].length);
+
+        Tree newTree = new Tree(newX * Tile.TILE_SIZE, newY * Tile.TILE_SIZE);
+
+        if (treeIsOnGrass(tiles, newTree)) {
+            boolean add = true;
+
+            for (Tree t : trees) {
+                if (t.equals(newTree)) {
+                    add = false;
+                    break;
+                }
+
+                if (t.bounds().intersects(newTree.bounds())) {
+                    add = false;
+                    break;
+                }
+            }
+
+            if (add) {
+                trees.add(newTree);
+            }
+        }
+
+
+        for (int dx = 0; dx <= 1; dx++) {
+            for (int dy = 0; dy <= 1; dy++) {
+                if (dx + newX >= 0 && dx + newX < tiles.length && dy + newY >= 0 && dy + newY < tiles[0].length) {
+                    newTree = new Tree((newX + dx) * Tile.TILE_SIZE, (newY + dy) * Tile.TILE_SIZE);
+
+                    if (treeIsOnGrass(tiles, newTree)) {
+                        boolean add = true;
+
+                        for (Tree t : trees) {
+                            if (t.equals(newTree)) {
+                                add = false;
+                                break;
+                            }
+
+                            if (t.bounds().intersects(newTree.bounds())) {
+                                add = false;
+                                break;
+                            }
+                        }
+
+                        if (add) {
+                            trees.add(newTree);
+                        }
+                    }
+                }
+            }
+        }
+
+        generateForests(tiles, trees, newX, newY, remainingTiles - 1, random);
+    }
+
+    private static boolean treeIsOnGrass(Tile[][] tiles, Tree tree) {
+        int x = tree.getX() / Tile.TILE_SIZE;
+        int y = tree.getY() / Tile.TILE_SIZE;
+
+        for (int dx = 0; dx <= 1; dx++) {
+            for (int dy = 0; dy <= 1; dy++) {
+                if (x + dx >= 0 && y + dy >= 0 && x + dx < tiles.length && y + dy < tiles[0].length) {
+                    if (tiles[x + dx][y + dy].getType() != Tile.TYPE_GRASS)
+                        return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     private static void generateFire(Tile[][] tiles, double fireProbability) {

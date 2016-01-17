@@ -52,4 +52,12 @@ public class Tree {
     public int getY() {
         return y;
     }
+
+    public boolean equals(Object o) {
+        Tree otherTree = (Tree) o;
+
+        if (otherTree.x == x && otherTree.y == y) return true;
+
+        return false;
+    }
 }
