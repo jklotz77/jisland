@@ -82,19 +82,19 @@ public class Tool {
         return type;
     }
 
-    public void setFallenX(int fallenX) {
-        this.fallenX = fallenX;
-    }
-
-    public void setFallenY(int fallenY) {
-        this.fallenY = fallenY;
-    }
-
     public int getFallenX() {
         return fallenX;
     }
 
+    public void setFallenX(int fallenX) {
+        this.fallenX = fallenX;
+    }
+
     public int getFallenY() {
         return fallenY;
+    }
+
+    public void setFallenY(int fallenY) {
+        this.fallenY = fallenY;
     }
 }

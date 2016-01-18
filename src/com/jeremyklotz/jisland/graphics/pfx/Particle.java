@@ -19,7 +19,7 @@ public class Particle {
         Random rand = new Random();
 
         do {
-            dx = rand.nextDouble() * range *2 - range;
+            dx = rand.nextDouble() * range * 2 - range;
             dy = rand.nextDouble() * range * 2 - range;
         } while (dx == 0 && dy == 0);
     }

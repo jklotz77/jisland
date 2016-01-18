@@ -13,12 +13,10 @@ public class Tree {
     public static final int TREE_HEIGHT = SpriteSheet.SPRITE_SIZE * 2;
     public static final int STATE_GROWN = 0;
     public static final int STATE_FALLEN = 1;
-
+    protected static int[][] statePixels;
     private int state;
     private int x;
     private int y;
-
-    protected static int[][] statePixels;
 
     public Tree(int x, int y) {
         this.state = STATE_GROWN;

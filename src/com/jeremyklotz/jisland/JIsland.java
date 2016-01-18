@@ -19,11 +19,10 @@ public class JIsland implements Runnable {
     public static final int HEIGHT = WIDTH * 3 / 4;
     public static final int SCALE = 4;
     public static final int FPS = 60;
+    public static final boolean DEBUG = false;
     private static final String TITLE = "JIsland";
     private static final String VERSION = "0.1 Pre-Alpha";
     private static final String AUTHOR = "Jeremy Klotz";
-    public static final boolean DEBUG = false;
-
     private Thread thread;
     private Engine engine;
     private Window window;

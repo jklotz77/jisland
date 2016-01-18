@@ -17,9 +17,8 @@ public class Fire {
     private static final double PARTICLE_VELOCITY_RANGE = .75;
     private static final int PARTICLE_COLOR = ColorUtils.createColor(255, 0, 0);
     private static final int NUM_PARTICLES = 25;
-
-    private Animator animator;
     private static int[][] frames;
+    private Animator animator;
     private int x;
     private int y;
     private ParticleEffect particleEffect;

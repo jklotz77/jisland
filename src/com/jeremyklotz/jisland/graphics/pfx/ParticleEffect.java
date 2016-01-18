@@ -1,6 +1,5 @@
 package com.jeremyklotz.jisland.graphics.pfx;
 
-import com.jeremyklotz.jisland.JIsland;
 import com.jeremyklotz.jisland.graphics.Bitmap;
 
 import java.util.ArrayList;
