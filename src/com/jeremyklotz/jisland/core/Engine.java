@@ -19,7 +19,8 @@ import java.util.Random;
  */
 public class Engine {
     private static final int WORLD_DARKNESS = 150;
-    private static final int PLAYER_LIGHT_COLOR = ColorUtils.createColor(WORLD_DARKNESS, WORLD_DARKNESS / 2, 0);
+    private static final int PLAYER_LIGHT = 100;
+    private static final int PLAYER_LIGHT_COLOR = ColorUtils.createColor(PLAYER_LIGHT, PLAYER_LIGHT / 2, 0);
     private static final int PLAYER_LIGHT_DISTANCE = 75;
     private static final int WORLD_WIDTH = 64;
     private static final int WORLD_HEIGHT = 64;
