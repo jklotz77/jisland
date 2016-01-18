@@ -4,9 +4,10 @@ package com.jeremyklotz.jisland.graphics;
  * Created by jeremy on 1/17/16.
  */
 public class Text {
-    public static final int CHARACTER_SIZE = SpriteSheet.SPRITE_SIZE * 2;
-    private static final int ROW_ON_SPRITE_SHEET = 12;
-    private static final int NUM_CHARACTERS = 3;
+    public static final int CHARACTER_SIZE = SpriteSheet.SPRITE_SIZE;
+    private static final int ROW_ON_SPRITE_SHEET = 10;
+    private static final int NUM_CHARACTERS = 26;
+    private static final int CHARACTER_RENDER_SIZE = SpriteSheet.SPRITE_SIZE - 3;
     private static int[][] characters;
 
     public static void initArt(SpriteSheet spriteSheet) {
@@ -22,7 +23,7 @@ public class Text {
                 spriteY += CHARACTER_SIZE / SpriteSheet.SPRITE_SIZE;
             }
 
-            characters[spriteX / 2] = spriteSheet.getSprite(actualSpriteX, spriteY, CHARACTER_SIZE, CHARACTER_SIZE);
+            characters[spriteX] = spriteSheet.getSprite(actualSpriteX, spriteY, CHARACTER_SIZE, CHARACTER_SIZE);
         }
     }
 
@@ -41,15 +42,15 @@ public class Text {
             int charIndexInArray = ((int) ch) - 65;
             int[] charSprite = characters[charIndexInArray];
 
-            int xCor = x + (i - startWrapIndex) * CHARACTER_SIZE;
-            int yCor = y + wrapLevel * CHARACTER_SIZE;
+            int xCor = x + (i - startWrapIndex) * CHARACTER_RENDER_SIZE;
+            int yCor = y + wrapLevel * CHARACTER_RENDER_SIZE;
 
-            if (xCor > bitmap.getWidth() - CHARACTER_SIZE) {
+            if (xCor > bitmap.getWidth() - CHARACTER_RENDER_SIZE) {
                 startWrapIndex = i;
                 wrapLevel++;
 
-                xCor = x + (i - startWrapIndex) * CHARACTER_SIZE;
-                yCor = y + wrapLevel * CHARACTER_SIZE;
+                xCor = x + (i - startWrapIndex) * CHARACTER_RENDER_SIZE;
+                yCor = y + wrapLevel * CHARACTER_RENDER_SIZE;
             }
 
             bitmap.drawSpriteWithColor(charSprite, xCor, yCor, CHARACTER_SIZE, color);
