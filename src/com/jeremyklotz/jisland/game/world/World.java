@@ -183,7 +183,9 @@ public class World {
             }
         }
 
-        Fire.update();
+        for (Fire fire : fires) {
+            fire.update();
+        }
     }
 
     public void render(Bitmap bitmap) {
