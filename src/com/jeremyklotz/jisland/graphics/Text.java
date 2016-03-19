@@ -1,5 +1,7 @@
 package com.jeremyklotz.jisland.graphics;
 
+import com.jeremyklotz.jisland.JIsland;
+
 /**
  * Created by jeremy on 1/17/16.
  */
@@ -40,6 +42,13 @@ public class Text {
                 continue;
 
             int charIndexInArray = ((int) ch) - 65;
+
+            if (charIndexInArray < 0 || charIndexInArray >= characters.length) {
+                System.err.println("We do not support the character '" + ch + "' yet");
+
+                continue;
+            }
+
             int[] charSprite = characters[charIndexInArray];
 
             int xCor = x + (i - startWrapIndex) * CHARACTER_RENDER_SIZE;
