@@ -2,6 +2,7 @@ package com.jeremyklotz.jisland.core;
 
 import com.jeremyklotz.jisland.game.Player;
 import com.jeremyklotz.jisland.game.Tool;
+import com.jeremyklotz.jisland.game.world.Clock;
 import com.jeremyklotz.jisland.game.world.Tile;
 import com.jeremyklotz.jisland.game.world.World;
 import com.jeremyklotz.jisland.game.world.WorldGenerator;
@@ -18,8 +19,9 @@ import java.util.Random;
  * Created by Jeremy Klotz on 1/3/16
  */
 public class Engine {
-    private static final int WORLD_DARKNESS = 150;
-    private static final int PLAYER_LIGHT = 100;
+    private static final int WORLD_DARKNESS_MAX = 180;
+    private static final int WORLD_DARKNESS_MIN = 130;
+    private static final int PLAYER_LIGHT = 120;
     private static final int PLAYER_LIGHT_COLOR = ColorUtils.createColor(PLAYER_LIGHT, PLAYER_LIGHT / 2, 0);
     private static final int PLAYER_LIGHT_DISTANCE = 75;
     private static final int WORLD_WIDTH = 64;
@@ -27,6 +29,7 @@ public class Engine {
     private static final int NUM_LAKES = 10;
     private static final int NUM_FORESTS = 10;
     private static final double FIRE_PROBABILITY = 0.004;
+    private static final int SECONDS_PER_DAY = 5;
 
     private boolean gameOver;
     private Bitmap bitmap;
@@ -34,6 +37,8 @@ public class Engine {
     private World world;
     private Player player;
     private LightSource playerLight;
+    private Clock clock;
+    private int currentDarkness;
 
     public Engine(Bitmap bitmap, Input input, SpriteSheet spriteSheet) {
         this.bitmap = bitmap;
@@ -47,6 +52,9 @@ public class Engine {
         this.player = new Player(10, 10, spriteSheet, world);
 
         this.playerLight = new LightSource(10, 10, PLAYER_LIGHT_COLOR, PLAYER_LIGHT_DISTANCE);
+
+        clock = new Clock(SECONDS_PER_DAY);
+        currentDarkness = WORLD_DARKNESS_MAX;
     }
 
     public void update() {
@@ -63,6 +71,11 @@ public class Engine {
 
         playerLight.setX(player.getX() - world.getViewpointX() + Player.PLAYER_SIZE / 2);
         playerLight.setY(player.getY() - world.getViewpointY() + Player.PLAYER_SIZE / 2);
+
+        clock.update();
+
+        currentDarkness = (int) (Math.round((WORLD_DARKNESS_MAX - WORLD_DARKNESS_MIN) *
+                clock.percentLight() + WORLD_DARKNESS_MIN));
     }
 
     public void render() {
@@ -85,7 +98,7 @@ public class Engine {
         player.render(bitmap, player.getX() - world.getViewpointX(), player.getY() - world.getViewpointY());
         world.renderTrees(bitmap);
         world.renderFire(bitmap);
-        bitmap.shade(WORLD_DARKNESS);
+        bitmap.shade(currentDarkness);
         world.renderLight(bitmap);
         playerLight.render(bitmap);
 
@@ -94,6 +107,7 @@ public class Engine {
 
     private void renderGui() {
         player.renderHealthBar(bitmap);
+        clock.render(bitmap);
     }
 
     public boolean isGameOver() {
