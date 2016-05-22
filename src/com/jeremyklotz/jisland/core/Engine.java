@@ -29,7 +29,7 @@ public class Engine {
     private static final int NUM_LAKES = 10;
     private static final int NUM_FORESTS = 10;
     private static final double FIRE_PROBABILITY = 0.004;
-    private static final int SECONDS_PER_DAY = 5;
+    private static final int SECONDS_PER_DAY = 120;
 
     private boolean gameOver;
     private Bitmap bitmap;
