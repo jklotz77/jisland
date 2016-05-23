@@ -1,7 +1,5 @@
 package com.jeremyklotz.jisland.graphics;
 
-import com.jeremyklotz.jisland.JIsland;
-
 /**
  * Created by jeremy on 1/17/16.
  */
