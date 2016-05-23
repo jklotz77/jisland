@@ -22,6 +22,9 @@ public abstract class Tile {
     protected int type;
 
     public Tile(int type) {
+        if (tiles == null)
+            throw new IllegalStateException("Tile art must be initialized before creating a tile");
+
         this.type = type;
     }
 

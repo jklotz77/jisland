@@ -19,6 +19,9 @@ public class Tree {
     private int y;
 
     public Tree(int x, int y) {
+        if (statePixels == null)
+            throw new IllegalStateException("Tree art must be initialized before creating a tree");
+
         this.state = STATE_GROWN;
         this.x = x;
         this.y = y;

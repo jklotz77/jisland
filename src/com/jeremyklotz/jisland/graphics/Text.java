@@ -28,6 +28,9 @@ public class Text {
     }
 
     public static void render(String text, int x, int y, Bitmap bitmap, int color) {
+        if (characters == null)
+            throw new IllegalStateException("Must init text art before drawing text");
+
         text = text.toUpperCase();
 
         int startWrapIndex = 0;

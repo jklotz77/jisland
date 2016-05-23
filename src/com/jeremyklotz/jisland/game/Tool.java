@@ -31,6 +31,9 @@ public class Tool {
     }
 
     public Tool(int type, int fallenX, int fallenY) {
+        if (toolPixels == null)
+            throw new IllegalStateException("Tool art must be initialized before creating a tool");
+
         this.type = type;
         this.player = null;
         direction = Player.RIGHT;
