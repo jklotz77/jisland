@@ -6,5 +6,4 @@ package com.jeremyklotz.jisland.graphics;
 public interface BlendingConstants {
     int NO_BLENDING = 0;
     int ADDITIVE = 1;
-    int AVERAGE = 2;
 }

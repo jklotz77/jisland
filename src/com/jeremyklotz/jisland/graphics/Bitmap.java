@@ -51,10 +51,6 @@ public class Bitmap {
                 int blendedColorAdditive = ColorUtils.blendColorsAdditive(color, pixels[x + y * width]);
                 pixels[x + y * width] = blendedColorAdditive;
                 break;
-            case BlendingConstants.AVERAGE:
-                int blendedColorAverage = ColorUtils.blendColorsAverage(color, pixels[x + y * width]);
-                pixels[x + y * width] = blendedColorAverage;
-                break;
         }
     }
 
