@@ -79,18 +79,6 @@ public class Engine {
     }
 
     public void render() {
-        /*
-        Render order:
-
-        World
-        Player
-        Trees
-        Fire
-        Shade
-        Fire light
-        Player Light
-         */
-
         bitmap.setBlending(BlendingConstants.NO_BLENDING);
         bitmap.clear(0);
 
