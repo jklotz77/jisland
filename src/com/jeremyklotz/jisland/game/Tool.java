@@ -6,6 +6,7 @@ import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
 
 import java.awt.*;
+import java.util.HashMap;
 
 /**
  * Created by Jeremy Klotz on 1/14/16
@@ -16,7 +17,7 @@ public class Tool {
     public static final int TYPE_AXE = 0;
     private static final int TOOL_ROW_ON_SPRITESHEET = 8;
 
-    private static int[][] toolPixels;
+    private static HashMap<Integer, int[]> toolPixels;
 
     private int type;
     private Player player;
@@ -42,9 +43,9 @@ public class Tool {
     }
 
     public static void initArt(SpriteSheet spriteSheet) {
-        toolPixels = new int[1][TOOL_WIDTH * TOOL_HEIGHT];
+        toolPixels = new HashMap<>();
 
-        toolPixels[TYPE_AXE] = spriteSheet.getSprite(TYPE_AXE, TOOL_ROW_ON_SPRITESHEET, TOOL_WIDTH, TOOL_HEIGHT);
+        toolPixels.put(TYPE_AXE, spriteSheet.getSprite(TYPE_AXE, TOOL_ROW_ON_SPRITESHEET, TOOL_WIDTH, TOOL_HEIGHT));
     }
 
     public void useTool(World world, int toolDirection) {
@@ -70,11 +71,7 @@ public class Tool {
     }
 
     public void render(Bitmap bitmap, int x, int y) {
-        switch (type) {
-            case TYPE_AXE:
-                bitmap.drawSprite(toolPixels[TYPE_AXE], x, y, direction == Player.LEFT);
-                break;
-        }
+        bitmap.drawSprite(toolPixels.get(type), x, y, direction == Player.LEFT);
     }
 
     public void pickUp(Player player) {
