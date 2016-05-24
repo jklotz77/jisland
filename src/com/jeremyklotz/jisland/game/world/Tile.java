@@ -4,6 +4,9 @@ import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
 import com.jeremyklotz.jisland.utils.ColorUtils;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 /**
  * Created by Jeremy Klotz on 1/4/16
  */
@@ -16,7 +19,7 @@ public abstract class Tile {
     public static final int TYPE_SAND = ColorUtils.createColor(255, 255, 0);
     private static final int TILE_ROW_ON_SPRITESHEET = 0;
 
-    protected static int[][] tiles;
+    protected static HashMap<Integer, int[]> tiles;
     protected static int[][] animatedTiles;
 
     protected int type;
@@ -29,14 +32,14 @@ public abstract class Tile {
     }
 
     public static void initTileArt(SpriteSheet spriteSheet) {
-        tiles = new int[3][TILE_SIZE * TILE_SIZE];
+        tiles = new HashMap<>();
         animatedTiles = new int[3][TILE_SIZE * TILE_SIZE];
 
-        tiles[0] = spriteSheet.getSprite(0, TILE_ROW_ON_SPRITESHEET); // Grass
-        tiles[1] = spriteSheet.getSprite(1, TILE_ROW_ON_SPRITESHEET); // Stone
-        tiles[2] = spriteSheet.getSprite(2, TILE_ROW_ON_SPRITESHEET); // Sand
+        tiles.put(TYPE_GRASS, spriteSheet.getSprite(0, TILE_ROW_ON_SPRITESHEET));
+        tiles.put(TYPE_STONE, spriteSheet.getSprite(1, TILE_ROW_ON_SPRITESHEET));
+        tiles.put(TYPE_SAND, spriteSheet.getSprite(2, TILE_ROW_ON_SPRITESHEET));
 
-        animatedTiles[0] = spriteSheet.getSprite(0, 1); // Water
+        animatedTiles[0] = spriteSheet.getSprite(0, 1);
         animatedTiles[1] = spriteSheet.getSprite(1, 1);
         animatedTiles[2] = spriteSheet.getSprite(2, 1);
     }
