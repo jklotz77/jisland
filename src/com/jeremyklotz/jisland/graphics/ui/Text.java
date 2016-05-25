@@ -1,4 +1,7 @@
-package com.jeremyklotz.jisland.graphics;
+package com.jeremyklotz.jisland.graphics.ui;
+
+import com.jeremyklotz.jisland.graphics.Bitmap;
+import com.jeremyklotz.jisland.graphics.SpriteSheet;
 
 /**
  * Created by jeremy on 1/17/16.
