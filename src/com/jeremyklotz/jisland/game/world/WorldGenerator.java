@@ -2,6 +2,7 @@ package com.jeremyklotz.jisland.game.world;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -12,7 +13,7 @@ public class WorldGenerator {
 
     public static World generateWorld(int tileWidth, int tileHeight, int numLakes, int numForests, double fireProbability) {
         Tile[][] tiles = new Tile[tileWidth][tileHeight];
-        Tree[] trees;
+        LinkedList<Tree> trees;
         Fire[] fires;
 
         // Fill with grass
@@ -92,8 +93,8 @@ public class WorldGenerator {
         }
     }
 
-    private static Tree[] generateForests(Tile[][] tiles, int numForests) {
-        ArrayList<Tree> treesList = new ArrayList<Tree>();
+    private static LinkedList<Tree> generateForests(Tile[][] tiles, int numForests) {
+        LinkedList<Tree> treesList = new LinkedList<Tree>();
         Random random = new Random();
 
         for (int i = 0; i < numForests; i++) {
@@ -102,16 +103,10 @@ public class WorldGenerator {
             generateForests(tiles, treesList, random.nextInt(tiles.length), random.nextInt(tiles[0].length), forestSize, random);
         }
 
-        Tree[] trees = new Tree[treesList.size()];
-
-        for (int i = 0; i < treesList.size(); i++) {
-            trees[i] = treesList.get(i);
-        }
-
-        return trees;
+        return treesList;
     }
 
-    private static void generateForests(Tile[][] tiles, ArrayList<Tree> trees, int x, int y, int remainingTiles, Random random) {
+    private static void generateForests(Tile[][] tiles, LinkedList<Tree> trees, int x, int y, int remainingTiles, Random random) {
         if (remainingTiles == 0) return;
 
         int newX;
@@ -195,7 +190,7 @@ public class WorldGenerator {
         return true;
     }
 
-    private static Fire[] generateFire(Tile[][] tiles, Tree[] trees, double fireProbability) {
+    private static Fire[] generateFire(Tile[][] tiles, LinkedList<Tree> trees, double fireProbability) {
         Random random = new Random();
         ArrayList<Fire> fireArrayList = new ArrayList<>();
 

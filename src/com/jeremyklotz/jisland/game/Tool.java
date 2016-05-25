@@ -7,6 +7,7 @@ import com.jeremyklotz.jisland.graphics.SpriteSheet;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by Jeremy Klotz on 1/14/16
@@ -55,9 +56,13 @@ public class Tool {
                         : player.getX() + Player.PLAYER_SIZE,
                         player.getY(), TOOL_WIDTH, TOOL_HEIGHT / 2);
 
-                for (Tree tree : world.getTrees()) {
+                for (Iterator<Tree> it = world.getTrees().iterator(); it.hasNext();) {
+                    Tree tree = it.next();
+
                     if (tree.bounds().intersects(toolBounds)) {
                         tree.fall();
+                        world.getFallenTrees().add(tree);
+                        it.remove();
                         break;
                     }
                 }

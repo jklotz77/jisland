@@ -54,6 +54,10 @@ public class Tree {
         return y;
     }
 
+    public int getState() {
+        return state;
+    }
+
     public boolean equals(Object o) {
         Tree otherTree = (Tree) o;
 

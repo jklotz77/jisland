@@ -11,6 +11,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -22,7 +24,8 @@ public class World {
     private int viewpointY;
     private LightSource fireLight;
     private Fire[] fires;
-    private Tree[] trees;
+    private LinkedList<Tree> trees;
+    private LinkedList<Tree> fallenTrees;
     private ArrayList<Tool> fallenTools;
 
     public World(int tileWidth, int tileHeight) {
@@ -37,17 +40,19 @@ public class World {
         setViewpoint(0, 0);
 
         fireLight = new LightSource(0, 0, Fire.FIRE_LIGHT_COLOR, Fire.FIRE_LIGHT_DISTANCE);
-        trees = new Tree[0];
+        trees = new LinkedList<>();
+        fallenTrees = new LinkedList<>();
         fallenTools = new ArrayList<>();
     }
 
-    public World(Tile[][] tiles, Tree[] trees, Fire[] fires) {
+    public World(Tile[][] tiles, LinkedList<Tree> trees, Fire[] fires) {
         this.tiles = tiles;
         this.trees = trees;
         this.fires = fires;
 
         fireLight = new LightSource(0, 0, Fire.FIRE_LIGHT_COLOR, Fire.FIRE_LIGHT_DISTANCE);
         fallenTools = new ArrayList<>();
+        fallenTrees = new LinkedList<>();
 
         setViewpoint(0, 0);
     }
@@ -122,7 +127,7 @@ public class World {
     public void generateTrees(int numTrees) {
         Random random = new Random();
 
-        trees = new Tree[numTrees];
+        trees = new LinkedList<>();
 
         for (int i = 0; i < numTrees; i++) {
             int x;
@@ -139,8 +144,10 @@ public class World {
                 Tree tree = new Tree(x, y);
 
                 // Intersection with other trees
-                for (int t = 0; t < i; t++) {
-                    if (trees[t].bounds().intersects(tree.bounds())) {
+                for (Iterator<Tree> it = trees.iterator(); it.hasNext();) {
+                    Tree t = it.next();
+
+                    if (t.bounds().intersects(tree.bounds())) {
                         regenerate = true;
                         break;
                     }
@@ -164,7 +171,7 @@ public class World {
 
             } while (regenerate);
 
-            trees[i] = new Tree(x, y);
+            trees.add(new Tree(x, y));
         }
     }
 
@@ -211,6 +218,7 @@ public class World {
         }
 
         renderFallenTools(bitmap);
+        renderFallenTrees(bitmap);
     }
 
     private void renderFallenTools(Bitmap bitmap) {
@@ -223,13 +231,24 @@ public class World {
     }
 
     public void renderTrees(Bitmap bitmap) {
-        for (int i = 0; i < trees.length; i++) {
-            Tree tree = trees[i];
-
+        for (Tree tree : trees) {
             int x = tree.getX() - viewpointX;
             int y = tree.getY() - viewpointY;
 
-            tree.render(bitmap, x, y);
+            if (x + Tree.TREE_WIDTH >= 0 && y + Tree.TREE_HEIGHT >= 0 &&
+                    x <= bitmap.getWidth() && y <= bitmap.getHeight())
+                tree.render(bitmap, x, y);
+        }
+    }
+
+    private void renderFallenTrees(Bitmap bitmap) {
+        for (Tree tree : fallenTrees) {
+            int x = tree.getX() - viewpointX;
+            int y = tree.getY() - viewpointY;
+
+            if (x + Tree.TREE_WIDTH >= 0 && y + Tree.TREE_HEIGHT >= 0 &&
+                    x <= bitmap.getWidth() && y <= bitmap.getHeight())
+                tree.render(bitmap, x, y);
         }
     }
 
@@ -253,8 +272,12 @@ public class World {
         }
     }
 
-    public Tree[] getTrees() {
+    public LinkedList<Tree> getTrees() {
         return trees;
+    }
+
+    public LinkedList<Tree> getFallenTrees() {
+        return fallenTrees;
     }
 
     public int getViewpointX() {
