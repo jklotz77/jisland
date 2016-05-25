@@ -3,46 +3,56 @@ package com.jeremyklotz.jisland.graphics.pfx;
 import com.jeremyklotz.jisland.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 public class ParticleEffect {
-    private Particle[] particles;
+    private List<Particle> particles;
     private double velocityRange;
     private int color;
     private double maxDistance;
+    private boolean infinite;
 
     public ParticleEffect(double velocityRange, int numParticles, int color, double maxDistance) {
+        this(velocityRange, numParticles, color, maxDistance, true);
+    }
+
+    public ParticleEffect(double velocityRange, int numParticles, int color, double maxDistance, boolean inifite) {
         this.velocityRange = velocityRange;
         this.color = color;
         this.maxDistance = maxDistance;
+        this.infinite = inifite;
 
-        particles = new Particle[numParticles];
+        if (inifite)
+            particles = new ArrayList<>();
+        else
+            particles = new LinkedList<>();
 
         for (int i = 0; i < numParticles; i++) {
-            particles[i] = new Particle(color, velocityRange);
+            particles.add(new Particle(color, velocityRange));
         }
     }
 
     public void update() {
-        ArrayList<Integer> particleIndicies = new ArrayList<>();
+        for (ListIterator<Particle> it = particles.listIterator(); it.hasNext();) {
+            Particle p = it.next();
 
-        for (int i = 0; i < particles.length; i++) {
-            Particle p = particles[i];
             p.update();
 
             double distanceFromOrigin = Math.sqrt(p.getX() * p.getX() + p.getY() * p.getY());
 
             if (distanceFromOrigin > maxDistance) {
-                particleIndicies.add(i);
+                if (infinite)
+                    it.set(generateParticle());
+                else
+                    it.remove();
             }
         }
-
-
-        for (int i = 0; i < particleIndicies.size(); i++)
-            generateParticle(particleIndicies.get(i));
     }
 
-    private void generateParticle(int index) {
-        particles[index] = new Particle(color, velocityRange);
+    private Particle generateParticle() {
+        return new Particle(color, velocityRange);
     }
 
     public void render(Bitmap bitmap, int x, int y) {
