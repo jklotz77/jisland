@@ -10,6 +10,7 @@ import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.BlendingConstants;
 import com.jeremyklotz.jisland.graphics.LightSource;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
+import com.jeremyklotz.jisland.graphics.ui.Scene;
 import com.jeremyklotz.jisland.utils.ColorUtils;
 import com.jeremyklotz.jisland.utils.MathUtils;
 
@@ -18,7 +19,7 @@ import java.util.Random;
 /**
  * Created by Jeremy Klotz on 1/3/16
  */
-public class Engine {
+public class Engine implements Scene {
     private static final int WORLD_DARKNESS_MAX = 180;
     private static final int WORLD_DARKNESS_MIN = 130;
     private static final int PLAYER_LIGHT = 120;
@@ -57,6 +58,7 @@ public class Engine {
         currentDarkness = WORLD_DARKNESS_MAX;
     }
 
+    @Override
     public void update() {
         world.update();
         player.update(input);
@@ -78,6 +80,7 @@ public class Engine {
                 clock.percentLight() + WORLD_DARKNESS_MIN));
     }
 
+    @Override
     public void render() {
         bitmap.setBlending(BlendingConstants.NO_BLENDING);
         bitmap.clear(0);
@@ -91,6 +94,13 @@ public class Engine {
         playerLight.render(bitmap);
 
         renderGui();
+    }
+
+    @Override
+    public void dispose() {
+        world = null;
+        player = null;
+        playerLight = null;
     }
 
     private void renderGui() {
