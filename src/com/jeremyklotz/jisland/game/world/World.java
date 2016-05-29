@@ -217,8 +217,8 @@ public class World {
             x += SpriteSheet.SPRITE_SIZE;
         }
 
-        renderFallenTools(bitmap);
         renderFallenTrees(bitmap);
+        renderFallenTools(bitmap);
     }
 
     private void renderFallenTools(Bitmap bitmap) {
