@@ -1,3 +1,6 @@
+BUGS
+    - When holding the axe and pressign space, the player cannot move north-west
+
 Game Mechanics
     - Inventory
         - Display inventory pauses the game
