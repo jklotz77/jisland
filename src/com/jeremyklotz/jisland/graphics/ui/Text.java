@@ -1,4 +1,8 @@
-package com.jeremyklotz.jisland.graphics;
+package com.jeremyklotz.jisland.graphics.ui;
+
+import com.jeremyklotz.jisland.JIsland;
+import com.jeremyklotz.jisland.graphics.Bitmap;
+import com.jeremyklotz.jisland.graphics.SpriteSheet;
 
 import com.jeremyklotz.jisland.JIsland;
 
@@ -48,7 +52,7 @@ public class Text {
 
             if (ch == ' ')
                 continue;
-
+            
             if (characters.get((int) ch) == null) {
                 if (JIsland.DEBUG)
                     System.err.println("We do not support the character '" + ch + "' yet");

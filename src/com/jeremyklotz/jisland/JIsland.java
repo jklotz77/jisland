@@ -8,7 +8,10 @@ import com.jeremyklotz.jisland.game.world.Tile;
 import com.jeremyklotz.jisland.game.world.Tree;
 import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
-import com.jeremyklotz.jisland.graphics.Text;
+import com.jeremyklotz.jisland.graphics.ui.MainMenuScene;
+import com.jeremyklotz.jisland.graphics.ui.Scene;
+import com.jeremyklotz.jisland.graphics.ui.SceneManager;
+import com.jeremyklotz.jisland.graphics.ui.Text;
 import com.jeremyklotz.jisland.graphics.Window;
 
 /**
@@ -20,9 +23,9 @@ public class JIsland implements Runnable {
     public static final int SCALE = 4;
     public static final int FPS = 60;
     public static final boolean DEBUG = false;
-    private static final String TITLE = "JIsland";
-    private static final String VERSION = "0.1 Pre-Alpha";
-    private static final String AUTHOR = "Jeremy Klotz";
+    public static final String TITLE = "JIsland";
+    public static final String VERSION = "0.1 Pre-Alpha";
+    public static final String AUTHOR = "Jeremy Klotz";
     private Thread thread;
     private Engine engine;
     private Window window;
@@ -83,6 +86,9 @@ public class JIsland implements Runnable {
         SpriteSheet spriteSheet = new SpriteSheet("/spritesheet.png");
         initStaticArt(spriteSheet);
         engine = new Engine(bitmap, input, spriteSheet);
+
+        SceneManager.showScene(new MainMenuScene(bitmap, input));
+        SceneManager.queueNextScene(engine);
     }
 
     private void initStaticArt(SpriteSheet spriteSheet) {
@@ -91,14 +97,16 @@ public class JIsland implements Runnable {
         Tree.initArt(spriteSheet);
         Fire.initArt(spriteSheet);
         Text.initArt(spriteSheet);
+
+        SceneManager.init();
     }
 
     private void update() {
-        engine.update();
+        SceneManager.getCurrentScene().update();
     }
 
     private void render() {
-        engine.render();
+        SceneManager.getCurrentScene().render();
         window.swapBuffers();
     }
 
