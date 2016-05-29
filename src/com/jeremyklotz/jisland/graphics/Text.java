@@ -1,5 +1,9 @@
 package com.jeremyklotz.jisland.graphics;
 
+import com.jeremyklotz.jisland.JIsland;
+
+import java.util.HashMap;
+
 /**
  * Created by jeremy on 1/17/16.
  */
@@ -8,11 +12,12 @@ public class Text {
     private static final int ROW_ON_SPRITE_SHEET = 10;
     private static final int NUM_CHARACTERS = 26;
     private static final int CHARACTER_RENDER_SIZE = SpriteSheet.SPRITE_SIZE - 3;
-    private static int[][] characters;
+    private static HashMap<Integer, int[]> characters;
 
     public static void initArt(SpriteSheet spriteSheet) {
-        characters = new int[NUM_CHARACTERS][CHARACTER_SIZE * CHARACTER_SIZE];
+        characters = new HashMap<>();
 
+        int i = 65;
         for (int spriteX = 0; spriteX < NUM_CHARACTERS * CHARACTER_SIZE / SpriteSheet.SPRITE_SIZE; spriteX += CHARACTER_SIZE / SpriteSheet.SPRITE_SIZE) {
             int spriteY = ROW_ON_SPRITE_SHEET;
 
@@ -23,7 +28,9 @@ public class Text {
                 spriteY += CHARACTER_SIZE / SpriteSheet.SPRITE_SIZE;
             }
 
-            characters[spriteX] = spriteSheet.getSprite(actualSpriteX, spriteY, CHARACTER_SIZE, CHARACTER_SIZE);
+            characters.put(i, spriteSheet.getSprite(actualSpriteX, spriteY, CHARACTER_SIZE, CHARACTER_SIZE));
+
+            i++;
         }
     }
 
@@ -42,15 +49,12 @@ public class Text {
             if (ch == ' ')
                 continue;
 
-            int charIndexInArray = ((int) ch) - 65;
-
-            if (charIndexInArray < 0 || charIndexInArray >= characters.length) {
-                System.err.println("We do not support the character '" + ch + "' yet");
+            if (characters.get((int) ch) == null) {
+                if (JIsland.DEBUG)
+                    System.err.println("We do not support the character '" + ch + "' yet");
 
                 continue;
             }
-
-            int[] charSprite = characters[charIndexInArray];
 
             int xCor = x + (i - startWrapIndex) * CHARACTER_RENDER_SIZE;
             int yCor = y + wrapLevel * CHARACTER_RENDER_SIZE;
@@ -63,7 +67,7 @@ public class Text {
                 yCor = y + wrapLevel * CHARACTER_RENDER_SIZE;
             }
 
-            bitmap.drawSpriteWithColor(charSprite, xCor, yCor, CHARACTER_SIZE, color);
+            bitmap.drawSpriteWithColor(characters.get((int) ch), xCor, yCor, CHARACTER_SIZE, color);
         }
     }
 }
