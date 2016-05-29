@@ -52,7 +52,7 @@ public class Text {
 
             if (ch == ' ')
                 continue;
-            
+
             if (characters.get((int) ch) == null) {
                 if (JIsland.DEBUG)
                     System.err.println("We do not support the character '" + ch + "' yet");
@@ -73,5 +73,9 @@ public class Text {
 
             bitmap.drawSpriteWithColor(characters.get((int) ch), xCor, yCor, CHARACTER_SIZE, color);
         }
+    }
+
+    public static int textWidth(String text) {
+        return text.length() * CHARACTER_RENDER_SIZE;
     }
 }
