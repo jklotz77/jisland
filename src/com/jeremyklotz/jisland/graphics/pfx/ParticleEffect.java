@@ -12,19 +12,19 @@ public class ParticleEffect {
     private double velocityRange;
     private int color;
     private double maxDistance;
-    private boolean infinite;
+    private boolean infinit;
 
     public ParticleEffect(double velocityRange, int numParticles, int color, double maxDistance) {
         this(velocityRange, numParticles, color, maxDistance, true);
     }
 
-    public ParticleEffect(double velocityRange, int numParticles, int color, double maxDistance, boolean inifite) {
+    public ParticleEffect(double velocityRange, int numParticles, int color, double maxDistance, boolean inifit) {
         this.velocityRange = velocityRange;
         this.color = color;
         this.maxDistance = maxDistance;
-        this.infinite = inifite;
+        this.infinit = inifit;
 
-        if (inifite)
+        if (inifit)
             particles = new ArrayList<>();
         else
             particles = new LinkedList<>();
@@ -43,7 +43,7 @@ public class ParticleEffect {
             double distanceFromOrigin = Math.sqrt(p.getX() * p.getX() + p.getY() * p.getY());
 
             if (distanceFromOrigin > maxDistance) {
-                if (infinite)
+                if (infinit)
                     it.set(generateParticle());
                 else
                     it.remove();
