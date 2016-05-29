@@ -14,21 +14,21 @@ import java.util.HashMap;
 public class Text {
     public static final int CHARACTER_SIZE = SpriteSheet.SPRITE_SIZE;
     private static final int ROW_ON_SPRITE_SHEET = 10;
-    private static final int NUM_CHARACTERS = 26;
+    private static final int NUM_CHARACTERS = 58;
     private static final int CHARACTER_RENDER_SIZE = SpriteSheet.SPRITE_SIZE - 3;
     private static HashMap<Integer, int[]> characters;
 
     public static void initArt(SpriteSheet spriteSheet) {
         characters = new HashMap<>();
 
-        int i = 65;
+        int i = 33;
         for (int spriteX = 0; spriteX < NUM_CHARACTERS * CHARACTER_SIZE / SpriteSheet.SPRITE_SIZE; spriteX += CHARACTER_SIZE / SpriteSheet.SPRITE_SIZE) {
             int spriteY = ROW_ON_SPRITE_SHEET;
 
             int actualSpriteX = spriteX;
 
-            if (spriteX >= spriteSheet.getWidth() / SpriteSheet.SPRITE_SIZE) {
-                actualSpriteX = spriteX - spriteSheet.getWidth() / SpriteSheet.SPRITE_SIZE;
+            while (actualSpriteX >= spriteSheet.getWidth() / SpriteSheet.SPRITE_SIZE) {
+                actualSpriteX = actualSpriteX - spriteSheet.getWidth() / SpriteSheet.SPRITE_SIZE;
                 spriteY += CHARACTER_SIZE / SpriteSheet.SPRITE_SIZE;
             }
 
