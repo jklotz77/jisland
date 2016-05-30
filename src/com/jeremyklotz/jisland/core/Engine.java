@@ -11,6 +11,7 @@ import com.jeremyklotz.jisland.graphics.BlendingConstants;
 import com.jeremyklotz.jisland.graphics.LightSource;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
 import com.jeremyklotz.jisland.graphics.ui.Scene;
+import com.jeremyklotz.jisland.graphics.ui.SceneManager;
 import com.jeremyklotz.jisland.utils.ColorUtils;
 import com.jeremyklotz.jisland.utils.MathUtils;
 
@@ -60,6 +61,11 @@ public class Engine implements Scene {
 
     @Override
     public void update() {
+        if (input.ispPressed()) {
+            SceneManager.showPauseMenu();
+            return;
+        }
+
         world.update();
         player.update(input);
 
@@ -98,9 +104,7 @@ public class Engine implements Scene {
 
     @Override
     public void dispose() {
-        world = null;
-        player = null;
-        playerLight = null;
+
     }
 
     private void renderGui() {
