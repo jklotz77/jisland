@@ -5,7 +5,6 @@ import com.jeremyklotz.jisland.graphics.SpriteSheet;
 import com.jeremyklotz.jisland.utils.ColorUtils;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 /**
  * Created by Jeremy Klotz on 1/4/16

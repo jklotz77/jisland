@@ -4,8 +4,6 @@ import com.jeremyklotz.jisland.JIsland;
 import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
 
-import com.jeremyklotz.jisland.JIsland;
-
 import java.util.HashMap;
 
 /**

@@ -8,11 +8,10 @@ import com.jeremyklotz.jisland.game.world.Tile;
 import com.jeremyklotz.jisland.game.world.Tree;
 import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
+import com.jeremyklotz.jisland.graphics.Window;
 import com.jeremyklotz.jisland.graphics.ui.MainMenuScene;
-import com.jeremyklotz.jisland.graphics.ui.Scene;
 import com.jeremyklotz.jisland.graphics.ui.SceneManager;
 import com.jeremyklotz.jisland.graphics.ui.Text;
-import com.jeremyklotz.jisland.graphics.Window;
 
 /**
  * Created by Jeremy Klotz on 1/3/16
