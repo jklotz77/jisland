@@ -4,6 +4,7 @@ import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
 import com.jeremyklotz.jisland.utils.ColorUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -19,7 +20,7 @@ public abstract class Tile {
     private static final int TILE_ROW_ON_SPRITESHEET = 0;
 
     protected static HashMap<Integer, int[]> tiles;
-    protected static int[][] animatedTiles;
+    protected static HashMap<Integer, int[][]> animatedTiles;
 
     protected int type;
 
@@ -32,15 +33,19 @@ public abstract class Tile {
 
     public static void initTileArt(SpriteSheet spriteSheet) {
         tiles = new HashMap<>();
-        animatedTiles = new int[3][TILE_SIZE * TILE_SIZE];
+        animatedTiles = new HashMap<>();
 
         tiles.put(TYPE_GRASS, spriteSheet.getSprite(0, TILE_ROW_ON_SPRITESHEET));
         tiles.put(TYPE_STONE, spriteSheet.getSprite(1, TILE_ROW_ON_SPRITESHEET));
         tiles.put(TYPE_SAND, spriteSheet.getSprite(2, TILE_ROW_ON_SPRITESHEET));
 
-        animatedTiles[0] = spriteSheet.getSprite(0, 1);
-        animatedTiles[1] = spriteSheet.getSprite(1, 1);
-        animatedTiles[2] = spriteSheet.getSprite(2, 1);
+        int[][] waterTiles = new int[][] {
+                spriteSheet.getSprite(0, 1),
+                spriteSheet.getSprite(1, 1),
+                spriteSheet.getSprite(2, 1)
+        };
+
+        animatedTiles.put(TYPE_WATER, waterTiles);
     }
 
     public abstract void update();

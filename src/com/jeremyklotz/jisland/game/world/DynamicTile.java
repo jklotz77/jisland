@@ -12,14 +12,9 @@ public class DynamicTile extends Tile {
     public DynamicTile(int type) {
         super(type);
 
+        int[][] frames = animatedTiles.get(type);
 
-        if (type == TYPE_WATER) {
-            int[][] frames = new int[3][Tile.TILE_SIZE * Tile.TILE_SIZE];
-            frames[0] = animatedTiles[0];
-            frames[1] = animatedTiles[1];
-            frames[2] = animatedTiles[2];
-            animator = new Animator(60, frames, true);
-        }
+        animator = new Animator(60, frames, true);
     }
 
     @Override
