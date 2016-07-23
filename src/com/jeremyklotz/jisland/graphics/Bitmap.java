@@ -146,4 +146,14 @@ public class Bitmap {
     public int getHeight() {
         return height;
     }
+
+    public int[] screenshot() {
+        int[] screenshot = new int[width * height];
+
+        for (int i = 0; i < pixels.length; i++) {
+            screenshot[i] = pixels[i];
+        }
+
+        return screenshot;
+    }
 }

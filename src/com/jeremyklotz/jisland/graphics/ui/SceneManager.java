@@ -1,17 +1,24 @@
 package com.jeremyklotz.jisland.graphics.ui;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import com.jeremyklotz.jisland.core.Input;
 
 /**
  * Created by Jeremy Klotz on 5/25/16.
  */
 public class SceneManager {
     private static Scene currentScene;
-    private static Queue<Scene> nextScenes;
+    private static Input input;
 
-    public static void init() {
-        nextScenes = new LinkedList<>();
+    private static Scene mainMenu;
+    private static Scene gameEngine;
+    private static Scene pauseMenu;
+
+    public static void init(Scene mainMenuScene, Scene gameEngineScene, Scene pauseMenuScene, Input inputHandler) {
+        mainMenu = mainMenuScene;
+        gameEngine = gameEngineScene;
+        pauseMenu = pauseMenuScene;
+        input = inputHandler;
+
         currentScene = null;
     }
 
@@ -20,14 +27,20 @@ public class SceneManager {
             currentScene.dispose();
 
         currentScene = scene;
+
+        input.resetKeys();
     }
 
-    public static void queueNextScene(Scene nextScene) {
-        nextScenes.add(nextScene);
+    public static void showMainMenu() {
+        showScene(mainMenu);
     }
 
-    public static void nextScene() {
-        currentScene = nextScenes.poll();
+    public static void showGameScene() {
+        showScene(gameEngine);
+    }
+
+    public static void showPauseMenu() {
+        showScene(pauseMenu);
     }
 
     public static Scene getCurrentScene() {

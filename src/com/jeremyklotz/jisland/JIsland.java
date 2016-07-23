@@ -10,6 +10,7 @@ import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
 import com.jeremyklotz.jisland.graphics.Window;
 import com.jeremyklotz.jisland.graphics.ui.MainMenuScene;
+import com.jeremyklotz.jisland.graphics.ui.PauseMenu;
 import com.jeremyklotz.jisland.graphics.ui.SceneManager;
 import com.jeremyklotz.jisland.graphics.ui.Text;
 
@@ -86,8 +87,12 @@ public class JIsland implements Runnable {
         initStaticArt(spriteSheet);
         engine = new Engine(bitmap, input, spriteSheet);
 
-        SceneManager.showScene(new MainMenuScene(bitmap, input));
-        SceneManager.queueNextScene(engine);
+        engine.render();
+
+        MainMenuScene mainMenu = new MainMenuScene(bitmap, input, bitmap.screenshot());
+
+        SceneManager.init(mainMenu, engine, new PauseMenu(bitmap.screenshot(), bitmap, input), input);
+        SceneManager.showMainMenu();
     }
 
     private void initStaticArt(SpriteSheet spriteSheet) {
@@ -96,8 +101,6 @@ public class JIsland implements Runnable {
         Tree.initArt(spriteSheet);
         Fire.initArt(spriteSheet);
         Text.initArt(spriteSheet);
-
-        SceneManager.init();
     }
 
     private void update() {
