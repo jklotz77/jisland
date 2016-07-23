@@ -39,7 +39,7 @@ public class PauseMenu implements Scene {
         };
 
         options = new ListChooser(listElements, bitmap.getWidth() / 2 - Text.textWidth("Resume") / 2, 30,
-                0, ColorUtils.createColor(255, 255, 255));
+                ColorUtils.createColor(100, 100, 100), ColorUtils.createColor(255, 255, 255));
     }
 
     @Override

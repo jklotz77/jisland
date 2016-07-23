@@ -45,7 +45,7 @@ public class MainMenuScene implements Scene {
         };
 
         options = new ListChooser(elements,
-                bitmap.getWidth() / 2 - Text.textWidth("Play"), 50, 0, ColorUtils.createColor(255, 255, 255));
+                bitmap.getWidth() / 2 - Text.textWidth("Play"), 50, ColorUtils.createColor(100, 100, 100), ColorUtils.createColor(255, 255, 255));
     }
 
     @Override
