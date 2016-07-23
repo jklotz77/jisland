@@ -91,6 +91,7 @@ public class World {
 
         fallenTools = new ArrayList<>();
         initFallenTools();
+        fallenTrees = new LinkedList<>();
     }
 
     private void parseTiles(int[] worldPixels, int width, int height) {
