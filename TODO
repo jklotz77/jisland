@@ -3,16 +3,16 @@ BUGS
 
 Game Mechanics
     - Inventory
-        - Display inventory pauses the game
+        - Displaying inventory pauses the game
     - Building
-    - AI
+    - Othre Creatures
         - Neutral Creatures
         - Evil Creatures
-    - Hunting
+        - Hunting
     - Hunger and Thirst
-    - Draw clock on screen
+    - Clock
     - Water dynamically flows together
 
 GUI
     - Save Games
-    - Option Scene
+    - Option Window
