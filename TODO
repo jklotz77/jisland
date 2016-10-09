@@ -12,6 +12,8 @@ Game Mechanics
     - Hunger and Thirst
     - Draw clock on screen
     - Water dynamically flows together
+    - Trees grow and leave seeds
+    - Tree logs fall at random spots within the original tree to look more random
 
 GUI
     - Save Games

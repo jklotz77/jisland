@@ -1,6 +1,7 @@
 package com.jeremyklotz.jisland.game.world;
 
-import com.jeremyklotz.jisland.game.Tool;
+import com.jeremyklotz.jisland.game.inventory.Tool;
+import com.jeremyklotz.jisland.game.inventory.InventoryItem;
 import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.LightSource;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
@@ -25,8 +26,7 @@ public class World {
     private LightSource fireLight;
     private Fire[] fires;
     private LinkedList<Tree> trees;
-    private LinkedList<Tree> fallenTrees;
-    private ArrayList<Tool> fallenTools;
+    private LinkedList<InventoryItem> fallenItems;
 
     public World(int tileWidth, int tileHeight) {
         tiles = new Tile[tileWidth][tileHeight];
@@ -41,8 +41,7 @@ public class World {
 
         fireLight = new LightSource(0, 0, Fire.FIRE_LIGHT_COLOR, Fire.FIRE_LIGHT_DISTANCE);
         trees = new LinkedList<>();
-        fallenTrees = new LinkedList<>();
-        fallenTools = new ArrayList<>();
+        fallenItems = new LinkedList<>();
     }
 
     public World(Tile[][] tiles, LinkedList<Tree> trees, Fire[] fires) {
@@ -51,8 +50,7 @@ public class World {
         this.fires = fires;
 
         fireLight = new LightSource(0, 0, Fire.FIRE_LIGHT_COLOR, Fire.FIRE_LIGHT_DISTANCE);
-        fallenTools = new ArrayList<>();
-        fallenTrees = new LinkedList<>();
+        fallenItems = new LinkedList<>();
 
         setViewpoint(0, 0);
     }
@@ -89,9 +87,8 @@ public class World {
 
         setViewpoint(0, 0);
 
-        fallenTools = new ArrayList<>();
-        initFallenTools();
-        fallenTrees = new LinkedList<>();
+        fallenItems = new LinkedList<>();
+        initFallenItems();
     }
 
     private void parseTiles(int[] worldPixels, int width, int height) {
@@ -176,12 +173,12 @@ public class World {
         }
     }
 
-    private void initFallenTools() {
+    private void initFallenItems() {
         Random random = new Random();
         int x = random.nextInt(getTileWidth());
         int y = random.nextInt(getTileHeight());
 
-        fallenTools.add(new Tool(Tool.TYPE_AXE, x, y));
+        fallenItems.add(new Tool(Tool.TYPE_AXE, x, y));
     }
 
     public void update() {
@@ -218,32 +215,20 @@ public class World {
             x += SpriteSheet.SPRITE_SIZE;
         }
 
-        renderFallenTrees(bitmap);
-        renderFallenTools(bitmap);
+        renderFallenItems(bitmap);
     }
 
-    private void renderFallenTools(Bitmap bitmap) {
-        for (int i = 0; i < fallenTools.size(); i++) {
-            int x = fallenTools.get(i).getFallenX();
-            int y = fallenTools.get(i).getFallenY();
+    private void renderFallenItems(Bitmap bitmap) {
+        for (int i = 0; i < fallenItems.size(); i++) {
+            int x = fallenItems.get(i).getFallenXOnMap();
+            int y = fallenItems.get(i).getFallenYOnMap();
 
-            fallenTools.get(i).render(bitmap, x - viewpointX, y - viewpointY);
+            fallenItems.get(i).render(bitmap, x - viewpointX, y - viewpointY);
         }
     }
 
     public void renderTrees(Bitmap bitmap) {
         for (Tree tree : trees) {
-            int x = tree.getX() - viewpointX;
-            int y = tree.getY() - viewpointY;
-
-            if (x + Tree.TREE_WIDTH >= 0 && y + Tree.TREE_HEIGHT >= 0 &&
-                    x <= bitmap.getWidth() && y <= bitmap.getHeight())
-                tree.render(bitmap, x, y);
-        }
-    }
-
-    private void renderFallenTrees(Bitmap bitmap) {
-        for (Tree tree : fallenTrees) {
             int x = tree.getX() - viewpointX;
             int y = tree.getY() - viewpointY;
 
@@ -277,10 +262,6 @@ public class World {
         return trees;
     }
 
-    public LinkedList<Tree> getFallenTrees() {
-        return fallenTrees;
-    }
-
     public int getViewpointX() {
         return viewpointX;
     }
@@ -306,11 +287,11 @@ public class World {
         return tiles[x][y];
     }
 
-    public void addFallenTool(Tool tool) {
-        fallenTools.add(tool);
+    public void addFallenItem(InventoryItem item) {
+        fallenItems.add(item);
     }
 
-    public ArrayList<Tool> getFallenTools() {
-        return fallenTools;
+    public LinkedList<InventoryItem> getFallenItems() {
+        return fallenItems;
     }
 }

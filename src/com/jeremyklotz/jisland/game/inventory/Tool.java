@@ -1,5 +1,7 @@
-package com.jeremyklotz.jisland.game;
+package com.jeremyklotz.jisland.game.inventory;
 
+import com.jeremyklotz.jisland.game.Player;
+import com.jeremyklotz.jisland.game.inventory.InventoryItem;
 import com.jeremyklotz.jisland.game.world.Tree;
 import com.jeremyklotz.jisland.game.world.World;
 import com.jeremyklotz.jisland.graphics.Bitmap;
@@ -12,7 +14,7 @@ import java.util.Iterator;
 /**
  * Created by Jeremy Klotz on 1/14/16
  */
-public class Tool {
+public class Tool extends InventoryItem {
     public static final int TOOL_WIDTH = SpriteSheet.SPRITE_SIZE;
     public static final int TOOL_HEIGHT = SpriteSheet.SPRITE_SIZE * 2;
     public static final int TYPE_AXE = 0;
@@ -20,27 +22,23 @@ public class Tool {
 
     private static HashMap<Integer, int[]> toolPixels;
 
-    private int type;
-    private Player player;
-    private int direction;
-    private int fallenX;
-    private int fallenY;
+    private int toolType;
 
-    public Tool(int type, Player player) {
-        this.type = type;
+    public Tool(int toolType, Player player) {
+        this.toolType = toolType;
         this.player = player;
         direction = Player.RIGHT;
     }
 
-    public Tool(int type, int fallenX, int fallenY) {
+    public Tool(int tool_type, int fallenXOnMap, int fallenYOnMap) {
         if (toolPixels == null)
             throw new IllegalStateException("Tool art must be initialized before creating a tool");
 
-        this.type = type;
+        this.toolType = tool_type;
         this.player = null;
         direction = Player.RIGHT;
-        this.fallenX = fallenX;
-        this.fallenY = fallenY;
+        this.fallenXOnMap = fallenXOnMap;
+        this.fallenYOnMap = fallenYOnMap;
     }
 
     public static void initArt(SpriteSheet spriteSheet) {
@@ -49,10 +47,11 @@ public class Tool {
         toolPixels.put(TYPE_AXE, spriteSheet.getSprite(TYPE_AXE, TOOL_ROW_ON_SPRITESHEET, TOOL_WIDTH, TOOL_HEIGHT));
     }
 
-    public void useTool(World world, int toolDirection) {
-        switch (type) {
+    @Override
+    public void use(World world) {
+        switch (toolType) {
             case TYPE_AXE:
-                Rectangle toolBounds = new Rectangle(toolDirection == Player.LEFT ? player.getX() - Player.PLAYER_SIZE / 2
+                Rectangle toolBounds = new Rectangle(direction == Player.LEFT ? player.getX() - Player.PLAYER_SIZE / 2
                         : player.getX() + Player.PLAYER_SIZE,
                         player.getY(), TOOL_WIDTH, TOOL_HEIGHT / 2);
 
@@ -60,8 +59,13 @@ public class Tool {
                     Tree tree = it.next();
 
                     if (tree.bounds().intersects(toolBounds)) {
-                        tree.fall();
-                        world.getFallenTrees().add(tree);
+                        InventoryItem logs = new RawMaterial(RawMaterial.TYPE_LOGS);
+
+                        logs.setFallenXOnMap(tree.getX());
+                        logs.setFallenYOnMap(tree.getY());
+
+                        world.addFallenItem(logs);
+
                         it.remove();
                         break;
                     }
@@ -71,35 +75,19 @@ public class Tool {
         }
     }
 
-    public void update(int direction) {
-        this.direction = direction;
-    }
-
     public void render(Bitmap bitmap, int x, int y) {
-        bitmap.drawSprite(toolPixels.get(type), x, y, direction == Player.LEFT);
+        bitmap.drawSprite(toolPixels.get(toolType), x, y, direction == Player.LEFT);
     }
 
-    public void pickUp(Player player) {
-        this.player = player;
+    public int getToolType() {
+        return toolType;
     }
 
-    public int getType() {
-        return type;
+    public int getItemWidth() {
+        return TOOL_WIDTH;
     }
 
-    public int getFallenX() {
-        return fallenX;
-    }
-
-    public void setFallenX(int fallenX) {
-        this.fallenX = fallenX;
-    }
-
-    public int getFallenY() {
-        return fallenY;
-    }
-
-    public void setFallenY(int fallenY) {
-        this.fallenY = fallenY;
+    public int getItemHeight() {
+        return TOOL_HEIGHT;
     }
 }

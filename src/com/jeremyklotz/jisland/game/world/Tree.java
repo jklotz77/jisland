@@ -12,7 +12,6 @@ public class Tree {
     public static final int TREE_WIDTH = SpriteSheet.SPRITE_SIZE * 2;
     public static final int TREE_HEIGHT = SpriteSheet.SPRITE_SIZE * 2;
     public static final int STATE_GROWN = 0;
-    public static final int STATE_FALLEN = 1;
     protected static int[][] statePixels;
     private int state;
     private int x;
@@ -28,14 +27,9 @@ public class Tree {
     }
 
     public static void initArt(SpriteSheet spriteSheet) {
-        statePixels = new int[2][TREE_WIDTH * TREE_HEIGHT];
+        statePixels = new int[1][TREE_WIDTH * TREE_HEIGHT];
 
         statePixels[0] = spriteSheet.getSprite(3, 0, TREE_WIDTH, TREE_HEIGHT);
-        statePixels[1] = spriteSheet.getSprite(5, 0, TREE_WIDTH, TREE_HEIGHT);
-    }
-
-    public void fall() {
-        state = STATE_FALLEN;
     }
 
     public Rectangle bounds() {

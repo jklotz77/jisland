@@ -2,6 +2,9 @@ package com.jeremyklotz.jisland.game;
 
 import com.jeremyklotz.jisland.JIsland;
 import com.jeremyklotz.jisland.core.Input;
+import com.jeremyklotz.jisland.game.inventory.Inventory;
+import com.jeremyklotz.jisland.game.inventory.InventoryItem;
+import com.jeremyklotz.jisland.game.inventory.Tool;
 import com.jeremyklotz.jisland.game.world.Tile;
 import com.jeremyklotz.jisland.game.world.World;
 import com.jeremyklotz.jisland.graphics.Bitmap;
@@ -10,7 +13,7 @@ import com.jeremyklotz.jisland.utils.ColorUtils;
 import com.jeremyklotz.jisland.utils.MathUtils;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Created by Jeremy Klotz on 1/6/16
@@ -102,10 +105,10 @@ public class Player {
             direction = LEFT;
             inventory.setToolDirection(LEFT);
         }
-        if (inventory.getCurrentToolIndex() == -1 && input.isSpacePressed()) {
-            pickUpTool();
+        if (!inventory.hasItemInHand() && input.isSpacePressed()) {
+            pickUpItem();
         }
-        if (inventory.getCurrentToolIndex() != -1 && input.isEscapePressed()) {
+        if (inventory.hasItemInHand() && input.isEscapePressed()) {
             dropCurrentTool();
         }
 
@@ -129,21 +132,21 @@ public class Player {
         inventory.update(input, world);
     }
 
-    private void pickUpTool() {
-        ArrayList<Tool> fallenTools = world.getFallenTools();
+    private void pickUpItem() {
+        LinkedList<InventoryItem> fallenItems = world.getFallenItems();
 
         Rectangle playerBounds = bounds();
 
-        for (int i = 0; i < fallenTools.size(); i++) {
-            int x = fallenTools.get(i).getFallenX();
-            int y = fallenTools.get(i).getFallenY();
+        for (int i = 0; i < fallenItems.size(); i++) {
+            int x = fallenItems.get(i).getFallenXOnMap();
+            int y = fallenItems.get(i).getFallenYOnMap();
 
             Rectangle toolBounds = new Rectangle(x, y, Tool.TOOL_WIDTH, Tool.TOOL_HEIGHT);
 
             if (toolBounds.intersects(playerBounds)) {
-                fallenTools.get(i).pickUp(this);
-                inventory.pickUpTool(fallenTools.get(i));
-                fallenTools.remove(i);
+                fallenItems.get(i).pickUp(this);
+                inventory.pickUp(fallenItems.get(i));
+                fallenItems.remove(i);
                 return;
             }
         }
@@ -159,8 +162,8 @@ public class Player {
             toolX = (int) (x + PLAYER_SIZE);
         }
 
-        Tool fallenTool = inventory.dropCurrentTool(toolX, toolY);
-        world.addFallenTool(fallenTool);
+        InventoryItem fallenItem = inventory.dropCurrentTool(toolX, toolY);
+        world.addFallenItem(fallenItem);
     }
 
     private void move(double dx, double dy) {

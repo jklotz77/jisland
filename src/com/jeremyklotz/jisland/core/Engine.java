@@ -1,7 +1,7 @@
 package com.jeremyklotz.jisland.core;
 
 import com.jeremyklotz.jisland.game.Player;
-import com.jeremyklotz.jisland.game.Tool;
+import com.jeremyklotz.jisland.game.inventory.Tool;
 import com.jeremyklotz.jisland.game.world.Clock;
 import com.jeremyklotz.jisland.game.world.Tile;
 import com.jeremyklotz.jisland.game.world.World;
@@ -49,7 +49,7 @@ public class Engine implements Scene {
 
         Random random = new Random();
         world = WorldGenerator.generateWorld(WORLD_WIDTH, WORLD_HEIGHT, NUM_LAKES, NUM_FORESTS, FIRE_PROBABILITY);
-        world.addFallenTool(new Tool(Tool.TYPE_AXE, random.nextInt(bitmap.getWidth() / 2), random.nextInt(bitmap.getHeight() / 2)));
+        world.addFallenItem(new Tool(Tool.TYPE_AXE, random.nextInt(bitmap.getWidth() / 2), random.nextInt(bitmap.getHeight() / 2)));
 
         this.player = new Player(10, 10, spriteSheet, world);
 
