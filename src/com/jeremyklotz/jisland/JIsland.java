@@ -2,6 +2,7 @@ package com.jeremyklotz.jisland;
 
 import com.jeremyklotz.jisland.core.Engine;
 import com.jeremyklotz.jisland.core.Input;
+import com.jeremyklotz.jisland.game.inventory.Inventory;
 import com.jeremyklotz.jisland.game.inventory.RawMaterial;
 import com.jeremyklotz.jisland.game.inventory.Tool;
 import com.jeremyklotz.jisland.game.world.Fire;
@@ -10,10 +11,7 @@ import com.jeremyklotz.jisland.game.world.Tree;
 import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
 import com.jeremyklotz.jisland.graphics.Window;
-import com.jeremyklotz.jisland.graphics.ui.MainMenuScene;
-import com.jeremyklotz.jisland.graphics.ui.PauseMenu;
-import com.jeremyklotz.jisland.graphics.ui.SceneManager;
-import com.jeremyklotz.jisland.graphics.ui.Text;
+import com.jeremyklotz.jisland.graphics.ui.*;
 
 /**
  * Created by Jeremy Klotz on 1/3/16
@@ -91,8 +89,9 @@ public class JIsland implements Runnable {
         engine.render();
 
         MainMenuScene mainMenu = new MainMenuScene(bitmap, input, bitmap.screenshot());
+        InventoryScene inventoryScene = new InventoryScene(bitmap.screenshot(), bitmap, engine.getPlayerInventory(), input);
 
-        SceneManager.init(mainMenu, engine, new PauseMenu(bitmap.screenshot(), bitmap, input), input);
+        SceneManager.init(mainMenu, engine, new PauseMenu(bitmap.screenshot(), bitmap, input), inventoryScene, input);
         SceneManager.showMainMenu();
     }
 

@@ -12,11 +12,13 @@ public class SceneManager {
     private static Scene mainMenu;
     private static Scene gameEngine;
     private static Scene pauseMenu;
+    private static Scene inventory;
 
-    public static void init(Scene mainMenuScene, Scene gameEngineScene, Scene pauseMenuScene, Input inputHandler) {
+    public static void init(Scene mainMenuScene, Scene gameEngineScene, Scene pauseMenuScene, Scene inventoryScene, Input inputHandler) {
         mainMenu = mainMenuScene;
         gameEngine = gameEngineScene;
         pauseMenu = pauseMenuScene;
+        inventory = inventoryScene;
         input = inputHandler;
 
         currentScene = null;
@@ -27,6 +29,7 @@ public class SceneManager {
             currentScene.dispose();
 
         currentScene = scene;
+        currentScene.show();
 
         input.resetKeys();
     }
@@ -41,6 +44,10 @@ public class SceneManager {
 
     public static void showPauseMenu() {
         showScene(pauseMenu);
+    }
+
+    public static void showInvetory() {
+        showScene(inventory);
     }
 
     public static Scene getCurrentScene() {

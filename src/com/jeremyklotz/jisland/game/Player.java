@@ -105,7 +105,7 @@ public class Player {
             direction = LEFT;
             inventory.setToolDirection(LEFT);
         }
-        if (!inventory.hasItemInHand() && input.isSpacePressed()) {
+        if (input.iscPressed()) {
             pickUpItem();
         }
         if (inventory.hasItemInHand() && input.isEscapePressed()) {
@@ -137,6 +137,7 @@ public class Player {
 
         Rectangle playerBounds = bounds();
 
+        // TODO Use iterator here
         for (int i = 0; i < fallenItems.size(); i++) {
             int x = fallenItems.get(i).getFallenXOnMap();
             int y = fallenItems.get(i).getFallenYOnMap();
@@ -263,5 +264,9 @@ public class Player {
 
     public int getY() {
         return (int) y;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 }

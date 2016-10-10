@@ -55,4 +55,14 @@ public class RawMaterial extends InventoryItem {
                 return SpriteSheet.SPRITE_SIZE;
         }
     }
+
+    @Override
+    public String toString() {
+        switch (type) {
+            case TYPE_LOGS:
+                return "Logs";
+            default:
+                return "Unknown material";
+        }
+    }
 }

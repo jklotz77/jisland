@@ -90,4 +90,14 @@ public class Tool extends InventoryItem {
     public int getItemHeight() {
         return TOOL_HEIGHT;
     }
+
+    @Override
+    public String toString() {
+        switch (toolType) {
+            case TYPE_AXE:
+                return "Axe";
+            default:
+                return "Unknown tool";
+        }
+    }
 }

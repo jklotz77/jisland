@@ -1,6 +1,7 @@
 package com.jeremyklotz.jisland.core;
 
 import com.jeremyklotz.jisland.game.Player;
+import com.jeremyklotz.jisland.game.inventory.Inventory;
 import com.jeremyklotz.jisland.game.inventory.Tool;
 import com.jeremyklotz.jisland.game.world.Clock;
 import com.jeremyklotz.jisland.game.world.Tile;
@@ -66,6 +67,11 @@ public class Engine implements Scene {
             return;
         }
 
+        if (input.isiPressed()) {
+            SceneManager.showInvetory();
+            return;
+        }
+
         world.update();
         player.update(input);
 
@@ -103,6 +109,11 @@ public class Engine implements Scene {
     }
 
     @Override
+    public void show() {
+
+    }
+
+    @Override
     public void dispose() {
 
     }
@@ -114,5 +125,9 @@ public class Engine implements Scene {
 
     public boolean isGameOver() {
         return gameOver;
+    }
+
+    public Inventory getPlayerInventory() {
+        return player.getInventory();
     }
 }

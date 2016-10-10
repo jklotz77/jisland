@@ -14,6 +14,8 @@ public class Input implements KeyListener {
     private boolean sPressed;
     private boolean dPressed;
     private boolean pPressed;
+    private boolean iPressed;
+    private boolean cPressed;
     private boolean anyKeyPressed;
     private boolean enterPressed;
     private boolean escapePressed;
@@ -43,6 +45,10 @@ public class Input implements KeyListener {
             dPressed = true;
         if (e.getKeyChar() == KeyEvent.VK_P)
             pPressed = true;
+        if (e.getKeyChar() == KeyEvent.VK_I)
+            iPressed = true;
+        if (e.getKeyChar() == KeyEvent.VK_C)
+            cPressed = true;
         if (e.getKeyCode() == KeyEvent.VK_SPACE)
             spacePressed = true;
         if (e.getKeyCode() == KeyEvent.VK_ENTER)
@@ -73,6 +79,10 @@ public class Input implements KeyListener {
             dPressed = false;
         if (e.getKeyChar() == KeyEvent.VK_P)
             pPressed = false;
+        if (e.getKeyChar() == KeyEvent.VK_I)
+            iPressed = false;
+        if (e.getKeyChar() == KeyEvent.VK_C)
+            cPressed = false;
         if (e.getKeyCode() == KeyEvent.VK_SPACE)
             spacePressed = false;
         if (e.getKeyCode() == KeyEvent.VK_ENTER)
@@ -119,6 +129,14 @@ public class Input implements KeyListener {
         return pPressed;
     }
 
+    public boolean isiPressed() {
+        return iPressed;
+    }
+
+    public boolean iscPressed() {
+        return cPressed;
+    }
+
     public boolean isSpacePressed() {
         return spacePressed;
     }
@@ -145,6 +163,8 @@ public class Input implements KeyListener {
         dPressed = false;
         sPressed = false;
         pPressed = false;
+        iPressed = false;
+        cPressed = false;
         spacePressed = false;
         enterPressed = false;
         escapePressed = false;

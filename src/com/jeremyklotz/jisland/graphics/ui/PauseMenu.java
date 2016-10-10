@@ -48,6 +48,11 @@ public class PauseMenu implements Scene {
     }
 
     @Override
+    public void show() {
+
+    }
+
+    @Override
     public void render() {
         bitmap.drawSprite(background, 0, 0, bitmap.getWidth());
         Text.render("Paused", bitmap.getWidth() / 2 - Text.textWidth("Paused") / 2, 10,

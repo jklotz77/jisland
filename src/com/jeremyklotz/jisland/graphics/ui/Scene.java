@@ -8,5 +8,7 @@ public interface Scene {
 
     void render();
 
+    void show();
+
     void dispose();
 }

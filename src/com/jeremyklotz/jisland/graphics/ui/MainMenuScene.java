@@ -54,6 +54,11 @@ public class MainMenuScene implements Scene {
     }
 
     @Override
+    public void show() {
+
+    }
+
+    @Override
     public void render() {
         bitmap.drawSprite(background, 0, 0, bitmap.getWidth());
 

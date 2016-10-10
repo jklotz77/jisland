@@ -13,27 +13,27 @@ import java.util.LinkedList;
 public class Inventory {
     private LinkedList<InventoryItem> inventoryItems;
     private boolean hasItemInHand;
-    private int currentToolIndex;
+    private int currentItemIndex;
     private int toolDirection;
 
     public Inventory() {
         inventoryItems = new LinkedList<>();
         hasItemInHand = false;
-        currentToolIndex = 0;
+        currentItemIndex = 0;
     }
 
     public void update(Input input, World world) {
         if (hasItemInHand) {
-            inventoryItems.get(currentToolIndex).update(toolDirection);
+            inventoryItems.get(currentItemIndex).update(toolDirection);
 
             if (input.isSpacePressed())
-                inventoryItems.get(currentToolIndex).use(world);
+                inventoryItems.get(currentItemIndex).use(world);
         }
     }
 
     public void render(Bitmap bitmap, int playerX, int playerY) {
         if (hasItemInHand) {
-            InventoryItem item = inventoryItems.get(currentToolIndex);
+            InventoryItem item = inventoryItems.get(currentItemIndex);
 
             if (toolDirection == Player.LEFT)
                 item.render(bitmap, playerX - item.getItemWidth(), playerY);
@@ -44,17 +44,17 @@ public class Inventory {
 
     public void pickUp(InventoryItem item) {
         inventoryItems.add(item);
-        currentToolIndex = inventoryItems.size() - 1;
+        currentItemIndex = inventoryItems.size() - 1;
         hasItemInHand = true;
     }
 
     public InventoryItem dropCurrentTool(int toolX, int toolY) {
-        InventoryItem fallenItem = inventoryItems.remove(currentToolIndex);
+        InventoryItem fallenItem = inventoryItems.remove(currentItemIndex);
 
         fallenItem.setFallenXOnMap(toolX);
         fallenItem.setFallenYOnMap(toolY);
 
-        currentToolIndex--;
+        currentItemIndex--;
         hasItemInHand = false;
 
         return fallenItem;
@@ -70,5 +70,14 @@ public class Inventory {
 
     public boolean hasItemInHand() {
         return hasItemInHand;
+    }
+
+    public LinkedList<InventoryItem> getInventoryItems() {
+        return inventoryItems;
+    }
+
+    public void setCurrentItemIndex(int i) {
+        currentItemIndex = i;
+        hasItemInHand = true;
     }
 }
