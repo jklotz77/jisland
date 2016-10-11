@@ -13,6 +13,7 @@ import com.jeremyklotz.jisland.utils.ColorUtils;
 import com.jeremyklotz.jisland.utils.MathUtils;
 
 import java.awt.*;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -138,16 +139,18 @@ public class Player {
         Rectangle playerBounds = bounds();
 
         // TODO Use iterator here
-        for (int i = 0; i < fallenItems.size(); i++) {
-            int x = fallenItems.get(i).getFallenXOnMap();
-            int y = fallenItems.get(i).getFallenYOnMap();
-
+        for (Iterator<InventoryItem> it = fallenItems.iterator(); it.hasNext();) {
+            InventoryItem fallenItem = it.next();
+    
+            int x = fallenItem.getFallenXOnMap();
+            int y = fallenItem.getFallenYOnMap();
+    
             Rectangle toolBounds = new Rectangle(x, y, Tool.TOOL_WIDTH, Tool.TOOL_HEIGHT);
-
+    
             if (toolBounds.intersects(playerBounds)) {
-                fallenItems.get(i).pickUp(this);
-                inventory.pickUp(fallenItems.get(i));
-                fallenItems.remove(i);
+                fallenItem.pickUp(this);
+                inventory.pickUp(fallenItem);
+                it.remove();
                 return;
             }
         }
