@@ -49,13 +49,13 @@ public class ListChooser {
         }
 
         if (input.isUpPressed()) {
-            selectedElement++;
+            selectedElement--;
             timerGoing = true;
 
             if (selectedElement == elements.length)
                 selectedElement = 0;
         } else if (input.isDownPressed()) {
-            selectedElement--;
+            selectedElement++;
             timerGoing = true;
 
             if (selectedElement == -1)

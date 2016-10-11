@@ -2,12 +2,13 @@ BUGS
     - When holding the axe and pressign space, the player cannot move north-west
 
 Game Mechanics
+    - Building
     - AI
         - Neutral Creatures
         - Evil Creatures
-    - Hunting
+        - Hunting
     - Hunger and Thirst
-    - Draw clock on screen
+    - Clock
     - Water dynamically flows together
     - Resources
         - Different types of natural resources
@@ -18,4 +19,4 @@ Game Mechanics
 
 GUI
     - Save Games
-    - Option Scene
+    - Option Window
