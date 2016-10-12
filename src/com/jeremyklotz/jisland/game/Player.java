@@ -137,8 +137,7 @@ public class Player {
         LinkedList<InventoryItem> fallenItems = world.getFallenItems();
 
         Rectangle playerBounds = bounds();
-
-        // TODO Use iterator here
+        
         for (Iterator<InventoryItem> it = fallenItems.iterator(); it.hasNext();) {
             InventoryItem fallenItem = it.next();
     
