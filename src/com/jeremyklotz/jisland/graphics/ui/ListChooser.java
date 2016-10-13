@@ -51,15 +51,15 @@ public class ListChooser {
         if (input.isUpPressed()) {
             selectedElement--;
             timerGoing = true;
-
-            if (selectedElement == elements.length)
-                selectedElement = 0;
+    
+            if (selectedElement == -1)
+                selectedElement = elements.length - 1;
         } else if (input.isDownPressed()) {
             selectedElement++;
             timerGoing = true;
-
-            if (selectedElement == -1)
-                selectedElement = elements.length - 1;
+            
+            if (selectedElement == elements.length)
+                selectedElement = 0;
         }
     }
 
