@@ -2,7 +2,6 @@ package com.jeremyklotz.jisland;
 
 import com.jeremyklotz.jisland.core.Engine;
 import com.jeremyklotz.jisland.core.Input;
-import com.jeremyklotz.jisland.game.inventory.Inventory;
 import com.jeremyklotz.jisland.game.inventory.RawMaterial;
 import com.jeremyklotz.jisland.game.inventory.Tool;
 import com.jeremyklotz.jisland.game.world.Fire;

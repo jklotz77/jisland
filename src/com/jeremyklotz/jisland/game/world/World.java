@@ -1,7 +1,7 @@
 package com.jeremyklotz.jisland.game.world;
 
-import com.jeremyklotz.jisland.game.inventory.Tool;
 import com.jeremyklotz.jisland.game.inventory.InventoryItem;
+import com.jeremyklotz.jisland.game.inventory.Tool;
 import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.LightSource;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
