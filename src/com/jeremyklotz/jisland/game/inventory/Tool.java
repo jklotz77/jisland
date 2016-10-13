@@ -1,7 +1,6 @@
 package com.jeremyklotz.jisland.game.inventory;
 
 import com.jeremyklotz.jisland.game.Player;
-import com.jeremyklotz.jisland.game.inventory.InventoryItem;
 import com.jeremyklotz.jisland.game.world.Tree;
 import com.jeremyklotz.jisland.game.world.World;
 import com.jeremyklotz.jisland.graphics.Bitmap;
@@ -10,6 +9,7 @@ import com.jeremyklotz.jisland.graphics.SpriteSheet;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Random;
 
 /**
  * Created by Jeremy Klotz on 1/14/16
@@ -61,8 +61,13 @@ public class Tool extends InventoryItem {
                     if (tree.bounds().intersects(toolBounds)) {
                         InventoryItem logs = new RawMaterial(RawMaterial.TYPE_LOGS);
 
-                        logs.setFallenXOnMap(tree.getX());
-                        logs.setFallenYOnMap(tree.getY());
+                        int fallenX = tree.getX();
+                        int fallenY = tree.getY();
+                        
+                        Random random = new Random();
+                        
+                        logs.setFallenXOnMap(fallenX + random.nextInt(Tree.TREE_WIDTH));
+                        logs.setFallenYOnMap(fallenY + random.nextInt(Tree.TREE_HEIGHT));
 
                         world.addFallenItem(logs);
 
