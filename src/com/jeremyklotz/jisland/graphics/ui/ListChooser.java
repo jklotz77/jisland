@@ -7,7 +7,7 @@ import com.jeremyklotz.jisland.graphics.Bitmap;
  * Created by Jeremy Klotz on 5/28/16.
  */
 public class ListChooser {
-    private static final int INPUT_DELAY = 10;
+    private static final int INPUT_DELAY = 7;
     private static final int LIST_ELEMENT_PADDING = 4;
 
     private ListElement[] elements;

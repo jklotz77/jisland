@@ -65,6 +65,7 @@ public class InventoryScene implements Scene {
                 @Override
                 public void trigger() {
                     inventory.setCurrentItemIndex(finalI);
+                    SceneManager.showGameScene();
                 }
             };
 
