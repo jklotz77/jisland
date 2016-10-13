@@ -21,8 +21,8 @@ import java.util.Random;
  * Created by Jeremy Klotz on 1/3/16
  */
 public class Engine implements Scene {
-    private static final int WORLD_DARKNESS_MAX = 180;
-    private static final int WORLD_DARKNESS_MIN = 130;
+    private static final int WORLD_DARKNESS_MAX = 150;
+    private static final int WORLD_DARKNESS_MIN = 80;
     private static final int PLAYER_LIGHT = 120;
     private static final int PLAYER_LIGHT_COLOR = ColorUtils.createColor(PLAYER_LIGHT, PLAYER_LIGHT / 2, 0);
     private static final int PLAYER_LIGHT_DISTANCE = 75;
