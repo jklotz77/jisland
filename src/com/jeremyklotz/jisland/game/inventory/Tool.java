@@ -66,8 +66,8 @@ public class Tool extends InventoryItem {
                         
                         Random random = new Random();
                         
-                        logs.setFallenXOnMap(fallenX + random.nextInt(Tree.TREE_WIDTH));
-                        logs.setFallenYOnMap(fallenY + random.nextInt(Tree.TREE_HEIGHT));
+                        logs.setFallenXOnMap(fallenX + random.nextInt(Tree.TREE_WIDTH / 2));
+                        logs.setFallenYOnMap(fallenY + random.nextInt(Tree.TREE_HEIGHT / 2));
 
                         world.addFallenItem(logs);
 
