@@ -44,8 +44,11 @@ public class Inventory {
 
     public void pickUp(InventoryItem item) {
         inventoryItems.add(item);
-        currentItemIndex = inventoryItems.size() - 1;
-        hasItemInHand = true;
+        
+        if (!hasItemInHand) {
+            hasItemInHand = true;
+            currentItemIndex = inventoryItems.size() - 1;
+        }
     }
 
     public InventoryItem dropCurrentTool(int toolX, int toolY) {
