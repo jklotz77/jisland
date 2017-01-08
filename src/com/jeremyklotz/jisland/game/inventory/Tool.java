@@ -84,7 +84,7 @@ public class Tool extends InventoryItem {
         bitmap.drawSprite(toolPixels.get(toolType), x, y, direction == Player.LEFT);
     }
 
-    public int getToolType() {
+    public int getType() {
         return toolType;
     }
 

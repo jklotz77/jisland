@@ -1,10 +1,13 @@
 package com.jeremyklotz.jisland.graphics.ui;
 
 import com.jeremyklotz.jisland.JIsland;
+import com.jeremyklotz.jisland.core.Engine;
 import com.jeremyklotz.jisland.core.Input;
 import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.GraphicEffects;
 import com.jeremyklotz.jisland.utils.ColorUtils;
+
+import java.io.IOException;
 
 /**
  * Created by Jeremy Klotz on 5/25/16.
@@ -16,19 +19,21 @@ public class MainMenuScene implements Scene {
     private Bitmap bitmap;
     private Input input;
     private int[] background;
+    private Engine engine;
 
     private ListChooser options;
 
-    public MainMenuScene(Bitmap bitmap, Input input, int[] background) {
+    public MainMenuScene(Bitmap bitmap, Input input, int[] background, Engine engine) {
         this.bitmap = bitmap;
         this.input = input;
         this.background = GraphicEffects.blur(background, BLUR_RADIUS, BLUR_ITERATIONS, bitmap.getWidth());
+        this.engine = engine;
 
         initOptionsMenu();
     }
 
     private void initOptionsMenu() {
-        ListElement[] elements = new ListElement[2];
+        ListElement[] elements = new ListElement[3];
 
         elements[0] = new ListElement("Play") {
             @Override
@@ -36,8 +41,21 @@ public class MainMenuScene implements Scene {
                 SceneManager.showGameScene();
             }
         };
+        
+        elements[1] = new ListElement("Load") {
+            @Override
+            public void trigger() {
+                try {
+                    engine.loadWorldFromFile(JIsland.WORLD_SAVE_PATH);
+                    engine.render();
+                    background = GraphicEffects.blur(bitmap.screenshot(), BLUR_RADIUS, BLUR_ITERATIONS, bitmap.getWidth());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
 
-        elements[1] = new ListElement("Exit") {
+        elements[2] = new ListElement("Exit") {
             @Override
             public void trigger() {
                 System.exit(0);

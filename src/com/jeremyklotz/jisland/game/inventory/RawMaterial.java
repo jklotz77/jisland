@@ -37,6 +37,10 @@ public class RawMaterial extends InventoryItem {
     public void render(Bitmap bitmap, int x, int y) {
         bitmap.drawSprite(rawMaterialArt.get(type), x, y, getItemWidth());
     }
+    
+    public int getType() {
+        return type;
+    }
 
     public int getItemWidth() {
         switch (type) {

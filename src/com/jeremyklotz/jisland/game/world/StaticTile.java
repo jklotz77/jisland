@@ -19,4 +19,8 @@ public class StaticTile extends Tile {
     public void render(Bitmap bitmap, int x, int y) {
         bitmap.drawSprite(tiles.get(type), x, y);
     }
+    
+    public String toString() {
+        return "StaticTile[type=" + type + "]";
+    }
 }

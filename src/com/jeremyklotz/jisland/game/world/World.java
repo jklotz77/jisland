@@ -274,6 +274,14 @@ public class World {
         this.viewpointX = x;
         this.viewpointY = y;
     }
+    
+    Tile[][] getTiles() {
+        return tiles;
+    }
+    
+    Fire[] getFires() {
+        return fires;
+    }
 
     public int getTileWidth() {
         return tiles.length;

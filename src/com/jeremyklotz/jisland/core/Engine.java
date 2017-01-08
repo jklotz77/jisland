@@ -3,10 +3,7 @@ package com.jeremyklotz.jisland.core;
 import com.jeremyklotz.jisland.game.Player;
 import com.jeremyklotz.jisland.game.inventory.Inventory;
 import com.jeremyklotz.jisland.game.inventory.Tool;
-import com.jeremyklotz.jisland.game.world.Clock;
-import com.jeremyklotz.jisland.game.world.Tile;
-import com.jeremyklotz.jisland.game.world.World;
-import com.jeremyklotz.jisland.game.world.WorldGenerator;
+import com.jeremyklotz.jisland.game.world.*;
 import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.BlendingConstants;
 import com.jeremyklotz.jisland.graphics.LightSource;
@@ -16,6 +13,7 @@ import com.jeremyklotz.jisland.graphics.ui.SceneManager;
 import com.jeremyklotz.jisland.utils.ColorUtils;
 import com.jeremyklotz.jisland.utils.MathUtils;
 
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -121,6 +119,16 @@ public class Engine implements Scene {
     private void renderGui() {
         player.renderHealthBar(bitmap);
         clock.render(bitmap);
+    }
+    
+    public void saveWorldToFile(String path) throws IOException {
+        WorldIO.saveWorldToPath(world, path);
+        System.gc();
+    }
+    
+    public void loadWorldFromFile(String path) throws IOException {
+        world = WorldIO.loadWorldFromFile(path);
+        System.gc();
     }
 
     public boolean isGameOver() {

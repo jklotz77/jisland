@@ -2,7 +2,6 @@ package com.jeremyklotz.jisland.game.world;
 
 import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
-import com.jeremyklotz.jisland.utils.ColorUtils;
 
 import java.util.HashMap;
 
@@ -11,11 +10,11 @@ import java.util.HashMap;
  */
 public abstract class Tile {
     public static final int TILE_SIZE = SpriteSheet.SPRITE_SIZE;
-    public static final int TYPE_GRASS = ColorUtils.createColor(0, 255, 0);
-    public static final int TYPE_STONE = ColorUtils.createColor(150, 150, 150);
-    public static final int TYPE_WATER = ColorUtils.createColor(0, 0, 255);
-    public static final int TYPE_FIRE = ColorUtils.createColor(255, 100, 0);
-    public static final int TYPE_SAND = ColorUtils.createColor(255, 255, 0);
+    public static final int TYPE_GRASS = 65280; // (0, 255, 0)
+    public static final int TYPE_STONE = 9868950; // (150, 150, 150)
+    public static final int TYPE_WATER = 255; // (0, 0, 255)
+    public static final int TYPE_FIRE = 16737280; // (255, 100, 0)
+    public static final int TYPE_SAND =  16776960; // (255, 255, 0)
     private static final int TILE_ROW_ON_SPRITESHEET = 0;
 
     protected static HashMap<Integer, int[]> tiles;

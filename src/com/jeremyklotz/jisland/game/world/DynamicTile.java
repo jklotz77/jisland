@@ -26,4 +26,8 @@ public class DynamicTile extends Tile {
     public void render(Bitmap bitmap, int x, int y) {
         bitmap.drawSprite(animator.getCurrentFrame(), x, y);
     }
+    
+    public String toString() {
+        return "DynamicTile[type=" + type + "]";
+    }
 }

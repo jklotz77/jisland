@@ -24,6 +24,8 @@ public class JIsland implements Runnable {
     public static final String TITLE = "JIsland";
     public static final String VERSION = "0.1 Pre-Alpha";
     public static final String AUTHOR = "Jeremy Klotz";
+    public static final String WORLD_SAVE_PATH = "/Users/jeremyklotz/Desktop/world.wd";
+    
     private Thread thread;
     private Engine engine;
     private Window window;
@@ -87,10 +89,10 @@ public class JIsland implements Runnable {
 
         engine.render();
 
-        MainMenuScene mainMenu = new MainMenuScene(bitmap, input, bitmap.screenshot());
+        MainMenuScene mainMenu = new MainMenuScene(bitmap, input, bitmap.screenshot(), engine);
         InventoryScene inventoryScene = new InventoryScene(bitmap.screenshot(), bitmap, engine.getPlayerInventory(), input);
 
-        SceneManager.init(mainMenu, engine, new PauseMenu(bitmap.screenshot(), bitmap, input), inventoryScene, input);
+        SceneManager.init(mainMenu, engine, new PauseMenu(bitmap.screenshot(), bitmap, input, engine), inventoryScene, input);
         SceneManager.showMainMenu();
     }
 
