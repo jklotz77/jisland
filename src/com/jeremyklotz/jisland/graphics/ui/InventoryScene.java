@@ -46,7 +46,7 @@ public class InventoryScene implements Scene {
     public void render() {
         bitmap.drawSprite(background, 0, 0, bitmap.getWidth());
         Text.render("Inventory", bitmap.getWidth() / 2 - Text.textWidth("Inventory") / 2, 10,
-                bitmap, ColorUtils.createColor(255, 255, 255));
+                bitmap, ColorUtils.WHITE);
 
         inventoryList.render(bitmap); // inventoryList is only temporary TODO Clean up inventory display
     }
@@ -73,7 +73,7 @@ public class InventoryScene implements Scene {
         }
 
         inventoryList = new ListChooser(listElements, 10, 10,
-                ColorUtils.createColor(100, 100, 100), ColorUtils.createColor(255, 255, 255));
+                ColorUtils.createColor(100, 100, 100), ColorUtils.WHITE);
     }
 
     @Override

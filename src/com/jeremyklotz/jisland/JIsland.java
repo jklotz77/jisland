@@ -92,7 +92,7 @@ public class JIsland implements Runnable {
         MainMenuScene mainMenu = new MainMenuScene(bitmap, input, bitmap.screenshot(), engine);
         InventoryScene inventoryScene = new InventoryScene(bitmap.screenshot(), bitmap, engine.getPlayerInventory(), input);
 
-        SceneManager.init(mainMenu, engine, new PauseMenu(bitmap.screenshot(), bitmap, input, engine), inventoryScene, input);
+        SceneManager.init(mainMenu, engine, new PauseMenu(bitmap, input, engine), inventoryScene, input);
         SceneManager.showMainMenu();
     }
 

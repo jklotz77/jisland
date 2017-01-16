@@ -1,5 +1,7 @@
 package com.jeremyklotz.jisland.game.world;
 
+import com.jeremyklotz.jisland.game.inventory.InventoryItem;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -21,8 +23,7 @@ public class WorldIO {
         lines.addAll(exportTiles(world.getTiles()));
         lines.addAll(exportTrees(world.getTrees()));
         lines.addAll(exportFires(world.getFires()));
-        
-        // TODO Export items
+        lines.addAll(exportItems(world.getFallenItems()));
         
         Files.write(file, lines, Charset.forName("UTF-8"));
     }
@@ -107,6 +108,16 @@ public class WorldIO {
         }
     
         lines.add(fireBuilder.toString());
+        
+        return lines;
+    }
+    
+    private static ArrayList<String> exportItems(LinkedList<InventoryItem> items) {
+        ArrayList<String> lines = new ArrayList<>();
+        
+        StringBuilder lineBuilder = new StringBuilder();
+        
+        // Serialize?
         
         return lines;
     }

@@ -22,11 +22,10 @@ public class PauseMenu implements Scene {
     private Input input;
     private ListChooser options;
 
-    public PauseMenu(int[] screenshot, Bitmap bitmap, Input input, Engine engine) {
+    public PauseMenu(Bitmap bitmap, Input input, Engine engine) {
         this.bitmap = bitmap;
         this.input = input;
         this.engine = engine;
-        background = GraphicEffects.blur(screenshot, BLUR_RADIUS, BLUR_ITERATIONS, bitmap.getWidth());
 
         ListElement[] listElements = new ListElement[3];
 
@@ -56,7 +55,7 @@ public class PauseMenu implements Scene {
         };
 
         options = new ListChooser(listElements, bitmap.getWidth() / 2 - Text.textWidth("Resume") / 2, 30,
-                ColorUtils.createColor(100, 100, 100), ColorUtils.createColor(255, 255, 255));
+                ColorUtils.createColor(50, 50, 50), ColorUtils.WHITE);
     }
 
     @Override
@@ -66,14 +65,14 @@ public class PauseMenu implements Scene {
 
     @Override
     public void show() {
-
+        background = GraphicEffects.blur(bitmap.screenshot(), BLUR_RADIUS, BLUR_ITERATIONS, bitmap.getWidth());
     }
 
     @Override
     public void render() {
         bitmap.drawSprite(background, 0, 0, bitmap.getWidth());
         Text.render("Paused", bitmap.getWidth() / 2 - Text.textWidth("Paused") / 2, 10,
-                bitmap, ColorUtils.createColor(255, 255, 255));
+                bitmap, ColorUtils.WHITE);
         options.render(bitmap);
     }
 

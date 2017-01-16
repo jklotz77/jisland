@@ -1,6 +1,8 @@
 package com.jeremyklotz.jisland.utils;
 
 public class ColorUtils {
+    public static final int WHITE = createColor(255, 255, 255);
+    
     public static int createColor(int r, int g, int b) {
         int color = 0;
 

@@ -13,7 +13,7 @@ import java.io.IOException;
  * Created by Jeremy Klotz on 5/25/16.
  */
 public class MainMenuScene implements Scene {
-    private static final int BLUR_RADIUS = 20;
+    private static final int BLUR_RADIUS = 10;
     private static final int BLUR_ITERATIONS = 2;
 
     private Bitmap bitmap;
@@ -63,7 +63,7 @@ public class MainMenuScene implements Scene {
         };
 
         options = new ListChooser(elements,
-                bitmap.getWidth() / 2 - Text.textWidth("Play"), 50, ColorUtils.createColor(100, 100, 100), ColorUtils.createColor(255, 255, 255));
+                bitmap.getWidth() / 2 - Text.textWidth("Play"), 50, ColorUtils.createColor(50, 50, 50), ColorUtils.WHITE);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class MainMenuScene implements Scene {
 
         Text.render(JIsland.TITLE + " v" + JIsland.VERSION + " by " + JIsland.AUTHOR,
                 bitmap.getWidth() / 2 - Text.textWidth(JIsland.TITLE + " v" + JIsland.VERSION + " by " + JIsland.AUTHOR) / 2,
-                10, bitmap, ColorUtils.createColor(255, 255, 255));
+                10, bitmap, ColorUtils.WHITE);
         options.render(bitmap);
     }
 
