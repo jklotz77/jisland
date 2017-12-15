@@ -1,5 +1,6 @@
 BUGS
     - When holding the axe and pressign space, the player cannot move north-west
+    - Draw torch light after player even when torch is not in inventory
 
 Game Mechanics
     - Building
