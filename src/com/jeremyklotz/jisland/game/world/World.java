@@ -191,6 +191,10 @@ public class World {
         for (Fire fire : fires) {
             fire.update();
         }
+    
+        for (InventoryItem item : fallenItems) {
+            item.update();
+        }
     }
 
     public void render(Bitmap bitmap) {
@@ -219,11 +223,15 @@ public class World {
     }
 
     private void renderFallenItems(Bitmap bitmap) {
-        for (int i = 0; i < fallenItems.size(); i++) {
-            int x = fallenItems.get(i).getFallenXOnMap();
-            int y = fallenItems.get(i).getFallenYOnMap();
-
-            fallenItems.get(i).render(bitmap, x - viewpointX, y - viewpointY);
+        for (InventoryItem item : fallenItems) {
+            // FallenItems with a light source a drawn with renderLightSourceItems() later
+            if (item.hasLightSource())
+                continue;
+    
+            int x = item.getFallenXOnMap();
+            int y = item.getFallenYOnMap();
+    
+            item.render(bitmap, x - viewpointX, y - viewpointY);
         }
     }
 
@@ -255,6 +263,18 @@ public class World {
             int y = fire.getY() - viewpointY;
 
             fire.render(bitmap, x, y);
+        }
+    }
+    
+    public void renderLightSourceItems(Bitmap bitmap) {
+        // TODO Don't draw lit items in renderFallenItems if they're draw here
+        for (InventoryItem item : fallenItems) {
+            if (item.hasLightSource()) {
+                int x = item.getFallenXOnMap() - viewpointX;
+                int y = item.getFallenYOnMap() - viewpointY;
+                
+                item.render(bitmap, x, y);
+            }
         }
     }
 

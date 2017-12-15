@@ -16,6 +16,7 @@ public abstract class InventoryItem {
     protected int fallenXOnMap;
     protected int fallenYOnMap;
     protected Player player;
+    protected boolean hasLightSource;
 
     public abstract void use(World world);
     
@@ -53,5 +54,9 @@ public abstract class InventoryItem {
 
     public int getItemHeight() {
         return ITEM_HEIGHT;
+    }
+    
+    public boolean hasLightSource() {
+        return hasLightSource;
     }
 }

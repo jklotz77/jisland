@@ -26,6 +26,7 @@ public class Torch extends InventoryItem {
             throw new IllegalStateException("Torch art and light source not yet initialized.");
         
         animator = new Animator(8, animationFrames, false);
+        hasLightSource = true;
     }
     
     public static void init(SpriteSheet spriteSheet) {

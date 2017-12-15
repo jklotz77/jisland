@@ -87,6 +87,7 @@ public class Engine implements Scene {
         world.render(bitmap);
         player.render(bitmap, player.getX() - world.getViewpointX(), player.getY() - world.getViewpointY());
         world.renderTrees(bitmap);
+        world.renderLightSourceItems(bitmap);
         world.renderFire(bitmap);
         bitmap.shade(currentDarkness);
         world.renderLight(bitmap);
