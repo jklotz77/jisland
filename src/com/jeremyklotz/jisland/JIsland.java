@@ -4,6 +4,7 @@ import com.jeremyklotz.jisland.core.Engine;
 import com.jeremyklotz.jisland.core.Input;
 import com.jeremyklotz.jisland.game.inventory.RawMaterial;
 import com.jeremyklotz.jisland.game.inventory.Tool;
+import com.jeremyklotz.jisland.game.inventory.Torch;
 import com.jeremyklotz.jisland.game.world.Fire;
 import com.jeremyklotz.jisland.game.world.Tile;
 import com.jeremyklotz.jisland.game.world.Tree;
@@ -39,18 +40,7 @@ public class JIsland implements Runnable {
 
     @Override
     public void run() {
-        InitThread t = new InitThread();
-        t.start();
-
-        synchronized (t) {
-            System.out.println("Initializing...");
-            try {
-                t.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Initialization complete.");
-        }
+        init();
 
         window.getWindow().setVisible(true);
 
@@ -103,6 +93,7 @@ public class JIsland implements Runnable {
         Tree.initArt(spriteSheet);
         Fire.initArt(spriteSheet);
         Text.initArt(spriteSheet);
+        Torch.init(spriteSheet);
     }
 
     private void update() {
@@ -112,14 +103,5 @@ public class JIsland implements Runnable {
     private void render() {
         SceneManager.getCurrentScene().render();
         window.swapBuffers();
-    }
-
-    class InitThread extends Thread {
-        public void run() {
-            synchronized (this) {
-                init();
-                notify();
-            }
-        }
     }
 }

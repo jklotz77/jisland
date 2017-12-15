@@ -5,6 +5,7 @@ import com.jeremyklotz.jisland.core.Input;
 import com.jeremyklotz.jisland.game.inventory.Inventory;
 import com.jeremyklotz.jisland.game.inventory.InventoryItem;
 import com.jeremyklotz.jisland.game.inventory.Tool;
+import com.jeremyklotz.jisland.game.inventory.Torch;
 import com.jeremyklotz.jisland.game.world.Tile;
 import com.jeremyklotz.jisland.game.world.World;
 import com.jeremyklotz.jisland.graphics.Bitmap;
@@ -55,6 +56,7 @@ public class Player {
         this.world = world;
 
         inventory = new Inventory();
+        inventory.pickUp(new Torch());
 
         health = INITIAL_HEALTH;
     }

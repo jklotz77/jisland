@@ -79,7 +79,12 @@ public class Tool extends InventoryItem {
                 break;
         }
     }
-
+    
+    @Override
+    public void update() {
+        
+    }
+    
     public void render(Bitmap bitmap, int x, int y) {
         bitmap.drawSprite(toolPixels.get(toolType), x, y, direction == Player.LEFT);
     }

@@ -32,7 +32,12 @@ public class RawMaterial extends InventoryItem {
     public void use(World world) {
 
     }
-
+    
+    @Override
+    public void update() {
+        
+    }
+    
     @Override
     public void render(Bitmap bitmap, int x, int y) {
         bitmap.drawSprite(rawMaterialArt.get(type), x, y, getItemWidth());

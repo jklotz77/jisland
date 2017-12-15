@@ -18,6 +18,8 @@ public abstract class InventoryItem {
     protected Player player;
 
     public abstract void use(World world);
+    
+    public abstract void update();
 
     public abstract void render(Bitmap bitmap, int x, int y);
 

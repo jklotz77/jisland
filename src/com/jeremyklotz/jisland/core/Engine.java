@@ -6,11 +6,9 @@ import com.jeremyklotz.jisland.game.inventory.Tool;
 import com.jeremyklotz.jisland.game.world.*;
 import com.jeremyklotz.jisland.graphics.Bitmap;
 import com.jeremyklotz.jisland.graphics.BlendingConstants;
-import com.jeremyklotz.jisland.graphics.LightSource;
 import com.jeremyklotz.jisland.graphics.SpriteSheet;
 import com.jeremyklotz.jisland.graphics.ui.Scene;
 import com.jeremyklotz.jisland.graphics.ui.SceneManager;
-import com.jeremyklotz.jisland.utils.ColorUtils;
 import com.jeremyklotz.jisland.utils.MathUtils;
 
 import java.io.IOException;
@@ -22,9 +20,6 @@ import java.util.Random;
 public class Engine implements Scene {
     private static final int WORLD_DARKNESS_MAX = 150;
     private static final int WORLD_DARKNESS_MIN = 80;
-    private static final int PLAYER_LIGHT = 120;
-    private static final int PLAYER_LIGHT_COLOR = ColorUtils.createColor(PLAYER_LIGHT, PLAYER_LIGHT / 2, 0);
-    private static final int PLAYER_LIGHT_DISTANCE = 75;
     private static final int WORLD_WIDTH = 64;
     private static final int WORLD_HEIGHT = 64;
     private static final int NUM_LAKES = 10;
@@ -37,7 +32,6 @@ public class Engine implements Scene {
     private Input input;
     private World world;
     private Player player;
-    private LightSource playerLight;
     private Clock clock;
     private int currentDarkness;
 
@@ -51,8 +45,6 @@ public class Engine implements Scene {
         world.addFallenItem(new Tool(Tool.TYPE_AXE, random.nextInt(bitmap.getWidth() / 2), random.nextInt(bitmap.getHeight() / 2)));
 
         this.player = new Player(10, 10, spriteSheet, world);
-
-        this.playerLight = new LightSource(10, 10, PLAYER_LIGHT_COLOR, PLAYER_LIGHT_DISTANCE);
 
         clock = new Clock(SECONDS_PER_DAY);
         currentDarkness = WORLD_DARKNESS_MAX;
@@ -80,10 +72,7 @@ public class Engine implements Scene {
         viewpointY = MathUtils.clamp(viewpointY, 0, world.getTileWidth() * Tile.TILE_SIZE - bitmap.getHeight() - Tile.TILE_SIZE);
 
         world.setViewpoint(viewpointX, viewpointY);
-
-        playerLight.setX(player.getX() - world.getViewpointX() + Player.PLAYER_SIZE / 2);
-        playerLight.setY(player.getY() - world.getViewpointY() + Player.PLAYER_SIZE / 2);
-
+        
         clock.update();
 
         currentDarkness = (int) (Math.round((WORLD_DARKNESS_MAX - WORLD_DARKNESS_MIN) *
@@ -101,7 +90,6 @@ public class Engine implements Scene {
         world.renderFire(bitmap);
         bitmap.shade(currentDarkness);
         world.renderLight(bitmap);
-        playerLight.render(bitmap);
 
         renderGui();
     }

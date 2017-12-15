@@ -29,6 +29,10 @@ public class Inventory {
             if (input.isSpacePressed())
                 inventoryItems.get(currentItemIndex).use(world);
         }
+        
+        for (InventoryItem item : inventoryItems) {
+            item.update();
+        }
     }
 
     public void render(Bitmap bitmap, int playerX, int playerY) {
