@@ -22,6 +22,7 @@ public class JIsland implements Runnable {
     public static final int SCALE = 4;
     public static final int FPS = 60;
     public static final boolean DEBUG = false;
+    public static final boolean USE_WASD = true;
     public static final String TITLE = "JIsland";
     public static final String VERSION = "0.1 Pre-Alpha";
     public static final String AUTHOR = "Jeremy Klotz";
