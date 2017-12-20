@@ -58,4 +58,9 @@ public class Torch extends InventoryItem {
         lightSource.setY(y);
         lightSource.render(bitmap);
     }
+
+    @Override
+    public String toString() {
+        return "Torch";
+    }
 }
