@@ -26,7 +26,7 @@ public class JIsland implements Runnable {
     public static final String TITLE = "JIsland";
     public static final String VERSION = "0.1 Pre-Alpha";
     public static final String AUTHOR = "Jeremy Klotz";
-    public static final String WORLD_SAVE_PATH = "/Users/jeremyklotz/Desktop/world.wd";
+    public static final String WORLD_SAVE_PATH = "world.wd";
     
     private Thread thread;
     private Engine engine;
