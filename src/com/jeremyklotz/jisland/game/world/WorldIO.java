@@ -30,13 +30,17 @@ public class WorldIO {
     
     private static ArrayList<String> exportTiles(Tile[][] tiles) {
         ArrayList<String> lines = new ArrayList<>();
-        
+
+        lines.add("# Width");
         lines.add(tiles[0].length + "");
+        lines.add("# Height");
         lines.add(tiles.length + "");
+
+        lines.add("# Tiles");
         
         for (int y = 0; y < tiles[0].length; y++) {
             StringBuilder lineBuilder = new StringBuilder();
-            
+
             int count = 0;
             int referenceTileX = 0;
             
@@ -75,10 +79,11 @@ public class WorldIO {
     
     private static ArrayList<String> exportTrees(LinkedList<Tree> trees) {
         ArrayList<String> lines = new ArrayList<>();
+        lines.add("# Trees");
         lines.add(trees.size() + "");
         
         StringBuilder treeBuilder = new StringBuilder();
-    
+
         int i = 0;
         for (Tree tree : trees) {
             treeBuilder.append(tree.getX()).append(",").append(tree.getY());
@@ -96,10 +101,11 @@ public class WorldIO {
     
     private static ArrayList<String> exportFires(Fire[] fires) {
         ArrayList<String> lines = new ArrayList<>();
+        lines.add("# Fires");
         lines.add(fires.length + "");
     
         StringBuilder fireBuilder = new StringBuilder();
-    
+
         for (int i = 0; i < fires.length; i++) {
             fireBuilder.append(fires[i].getX()).append(",").append(fires[i].getY());
         
@@ -114,9 +120,10 @@ public class WorldIO {
     
     private static ArrayList<String> exportItems(LinkedList<InventoryItem> items) {
         ArrayList<String> lines = new ArrayList<>();
+        lines.add("# Items");
         
         StringBuilder lineBuilder = new StringBuilder();
-        
+
         // Serialize?
         
         return lines;
@@ -124,19 +131,21 @@ public class WorldIO {
     
     public static World loadWorldFromFile(String path) throws IOException {
         BufferedReader in = new BufferedReader(new FileReader(path));
-    
-        int width = Integer.parseInt(in.readLine());
-        int height = Integer.parseInt(in.readLine());
-    
+
+        String[] worldSaveLines = parseWorldSave(in);
+
+        int width = Integer.parseInt(worldSaveLines[0]);
+        int height = Integer.parseInt(worldSaveLines[1]);
+
         Tile[][] tiles = new Tile[width][height];
         LinkedList<Tree> trees = new LinkedList<>();
         Fire[] fires;
     
-        String line;
-        
+        int currentLine = 2;
+
         // Tiles
         for (int y = 0; y < height; y++) {
-            line = in.readLine();
+            String line = worldSaveLines[currentLine];
             int x = 0;
     
             String[] tileTypes = line.split(",");
@@ -171,12 +180,15 @@ public class WorldIO {
                     x++;
                 }
             }
+
+            currentLine++;
         }
         
         // Trees
-        int numTrees = Integer.parseInt(in.readLine());
-        String[] treeCoordinates = in.readLine().split(",");
-        
+        int numTrees = Integer.parseInt(worldSaveLines[currentLine++]);
+
+        String[] treeCoordinates = worldSaveLines[currentLine++].split(",");
+
         for (int i = 0; i < numTrees; i++) {
             int x = Integer.parseInt(treeCoordinates[i * 2]);
             int y = Integer.parseInt(treeCoordinates[i * 2 + 1]);
@@ -185,10 +197,10 @@ public class WorldIO {
         }
         
         // Fires
-        int numFires = Integer.parseInt(in.readLine());
+        int numFires = Integer.parseInt(worldSaveLines[currentLine++]);
         fires = new Fire[numFires];
-        String[] fireCoordinates = in.readLine().split(",");
-        
+        String[] fireCoordinates = worldSaveLines[currentLine++].split(",");
+
         for (int i = 0; i < numFires; i++) {
             int x = Integer.parseInt(fireCoordinates[i * 2]);
             int y = Integer.parseInt(fireCoordinates[i * 2 + 1]);
@@ -199,5 +211,22 @@ public class WorldIO {
         // TODO Load items
         
         return new World(tiles, trees, fires);
+    }
+
+    private static String[] parseWorldSave(BufferedReader in) throws IOException {
+        String line;
+        ArrayList<String> lines = new ArrayList<>();
+
+        while ((line = in.readLine()) != null) {
+           if (!line.substring(0, 1).equals("#"))
+               lines.add(line);
+        }
+
+        String[] array = new String[lines.size()];
+
+        for (int i = 0; i < array.length; i++)
+            array[i] = lines.get(i);
+
+        return array;
     }
 }
