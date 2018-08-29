@@ -39,6 +39,8 @@ public class WorldGenerator {
 
             generateLake(tiles, random.nextInt(tiles.length), random.nextInt(tiles[0].length), lakeSize, random);
         }
+
+        fillInLakes(tiles);
     }
 
     private static void generateLake(Tile[][] tiles, int x, int y, int remainingTiles, Random random) {
@@ -66,6 +68,32 @@ public class WorldGenerator {
         }
 
         generateLake(tiles, newX, newY, remainingTiles - 1, random);
+    }
+
+    private static void fillInLakes(Tile[][] tiles) {
+        for (int x = 0; x < tiles.length; x++) {
+            for (int y = 0; y < tiles[0].length; y++) {
+                int numWaterNeighbors = 0;
+
+                if (tiles[x][y].getType() != Tile.TYPE_WATER &&
+                        x > 0 && x < tiles.length - 1 && y > 0 && y < tiles[0].length - 1) {
+                    if (tiles[x - 1][y].getType() == Tile.TYPE_WATER)
+                        numWaterNeighbors++;
+
+                    if (tiles[x + 1][y].getType() == Tile.TYPE_WATER)
+                        numWaterNeighbors++;
+
+                    if (tiles[x][y - 1].getType() == Tile.TYPE_WATER)
+                        numWaterNeighbors++;
+
+                    if (tiles[x][y + 1].getType() == Tile.TYPE_WATER)
+                        numWaterNeighbors++;
+                }
+
+                if (numWaterNeighbors >= 3)
+                    tiles[x][y] = new DynamicTile(Tile.TYPE_WATER);
+            }
+        }
     }
 
     private static void generateSand(Tile[][] tiles) {
