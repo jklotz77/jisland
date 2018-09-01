@@ -267,7 +267,6 @@ public class World {
     }
     
     public void renderLightSourceItems(Bitmap bitmap) {
-        // TODO Don't draw lit items in renderFallenItems if they're draw here
         for (InventoryItem item : fallenItems) {
             if (item.hasLightSource()) {
                 int x = item.getFallenXOnMap() - viewpointX;

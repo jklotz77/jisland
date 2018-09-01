@@ -124,8 +124,8 @@ public class WorldIO {
         
         StringBuilder lineBuilder = new StringBuilder();
 
-        // Serialize?
-        
+        // TODO Save items to world save file
+
         return lines;
     }
     
@@ -208,7 +208,7 @@ public class WorldIO {
             fires[i] = new Fire(x, y);
         }
         
-        // TODO Load items
+        // TODO Load items from world save file
         
         return new World(tiles, trees, fires);
     }
