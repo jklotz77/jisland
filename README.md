@@ -15,7 +15,7 @@ Graphics
 
 World Generation
 * Recursively generated tile-based map
-* Configurable ratio of forests and lakes
+* Configurable parameters for forests and lakes
 
-Graphics engine inspired from https://www.youtube.com/user/thebennybox
+Graphics engine inspired by https://www.youtube.com/user/thebennybox
 Player art from https://www.youtube.com/user/DesignsbyZephyr
