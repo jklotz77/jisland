@@ -9,6 +9,7 @@
 	<target name="clean" description="Delete all generated files">
 		<delete dir="${bin.dir}"/>
 		<delete dir="${dist.dir}"/>
+		<delete dir="${doc.dir}"/>
 	</target>
 
 	<target name="build" description="build the sources" depends="clean">
